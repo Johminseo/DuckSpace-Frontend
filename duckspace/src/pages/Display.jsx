@@ -12,7 +12,6 @@ import { useDisplayStore } from "../store/displayStore";
 import { createExhibition , getMyExhibitions, getUserExhibitions, getExhibitionDetail, likeExhibition, unlikeExhibition } from "../apis/displayApi";
 
 import { getMyProfile, getUserProfile } from "../apis/userApi";
-import userIcon from "../assets/ducktalkIcon/userIcon.svg";
 
 import { logout } from "../apis/authApi";
 
