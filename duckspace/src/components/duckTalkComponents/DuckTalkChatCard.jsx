@@ -124,10 +124,10 @@ function DuckTalkChatCard({ post, mode = "feed", onRefresh }) {
       </p>
 
       {/* 3. 본문 첨부 이미지 */}
-      {(detailImage || post.imageUrls?.[0]) && (
+      {(detailImage || post.thumbnailUrl) && (
         <div className="mt-1 h-[184px] w-[200px] overflow-hidden rounded-lg border border-[#EEEEEE]">
           <img
-            src={detailImage || post.imageUrls?.[0]}
+            src={detailImage || post.thumbnailUrl}
             alt="첨부 이미지"
             className="h-full w-full object-cover"
           />
