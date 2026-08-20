@@ -55,9 +55,9 @@ function PopupDetail() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FEFEFE] pb-12">
+    <div className="mx-auto min-h-screen max-w-[430px] bg-[#FEFEFE] pb-12">
       {/* 배너 이미지 + 헤더 버튼 */}
-      <div className="relative h-[280px] w-[430px] overflow-hidden bg-[#F7F7F7]">
+      <div className="relative h-[280px] w-full overflow-hidden bg-[#F7F7F7]">
         <img
           src={popupDetail?.imageUrl || displayBack}
           alt="팝업 배너"
