@@ -89,19 +89,6 @@ function HomeSlide({ banners = [] }) {
                 alt={banner.title}
                 className="h-full w-full object-cover"
               />
-
-              {/* 제목 + 현재 슬라이드 번호 */}
-              <div className="absolute bottom-[8px] left-0 right-0 flex flex-col items-center justify-center">
-                <p className="text-lg font-semibold text-[#FCFCFC]">
-                  {banner.title}
-                </p>
-
-                {isActive && (
-                  <p className="mt-1 text-sm text-[#FCFCFC]">
-                    {currentIndex + 1} / {banners.length}
-                  </p>
-                )}
-              </div>
             </div>
           );
         })}
