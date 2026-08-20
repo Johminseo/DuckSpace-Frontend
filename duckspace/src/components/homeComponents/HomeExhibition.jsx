@@ -28,7 +28,7 @@ function HomeExhibition({ exhibitions = [] }) {
       </div>
 
       {/* 전시장 카드 */}
-      <div className="flex items-start justify-center gap-4">
+      <div className="flex items-start gap-4">
         {/* 왼쪽 큰 카드 */}
         <div
           onClick={() => navigate(`/display?id=${big.exhibitionId}`)}

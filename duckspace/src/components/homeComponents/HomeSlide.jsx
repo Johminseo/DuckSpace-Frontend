@@ -49,7 +49,6 @@ function HomeSlide({ banners = [] }) {
         className="
           flex
           items-center
-          justify-center
           snap-x
           snap-mandatory
           gap-3

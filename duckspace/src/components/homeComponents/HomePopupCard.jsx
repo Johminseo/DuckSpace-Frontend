@@ -26,13 +26,15 @@ function HomePopupCard({ popups = [] }) {
       </div>
 
       {/* 팝업 카드 */}
-      <div className="flex justify-center gap-3 overflow-x-auto scrollbar-hide ">
+      <div className="flex gap-3 overflow-x-auto scrollbar-hide ">
         {popupList.map((popup) => (
           <div
             key={popup.id}
             className="
               h-[128px]
               w-[112px]
+              lg:h-[256px]
+              lg:w-[224px]
               shrink-0
               overflow-hidden
               rounded-[8px]
