@@ -36,6 +36,17 @@ function DuckTalkChatCard({ post, mode = "feed", onRefresh }) {
       .catch((error) => console.error("작성자 프로필 조회 실패:", error));
   }, [post.authorId]);
 
+  // 목록 API는 내가 좋아요 눌렀는지 여부를 안 주므로(항상 비어있음), 상세 조회로 정확히 채움.
+  // 이걸 안 하면 새로고침/재진입마다 실제로는 눌렀어도 안 누른 것처럼 보임.
+  useEffect(() => {
+    getPostDetail(post.id)
+      .then((detail) => {
+        if (typeof detail?.liked === "boolean") setLiked(detail.liked);
+        if (typeof detail?.likeCount === "number") setLikeCount(detail.likeCount);
+      })
+      .catch((error) => console.error("좋아요 상태 조회 실패:", error));
+  }, [post.id]);
+
   // 좋아요 토글 (카드 클릭으로 상세 이동되는 것 방지)
   const handleToggleLike = async (e) => {
     e.stopPropagation();
