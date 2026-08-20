@@ -68,10 +68,9 @@ function ExchangeList() {
       case "received":
         return receivedList;
       case "progress":
-        // 대기중(APPLIED) 또는 수락됨(ACCEPTED)인 항목만 추출
-        return allItems.filter((item) =>
-          ["APPLIED", "ACCEPTED"].includes(item.status)
-        );
+        // 수락되어 실제로 진행 중인(ACCEPTED) 항목만 추출 — 대기중(APPLIED)은
+        // 아직 수락 전이라 교환 완료 처리가 안 되므로 여기 포함하면 안 됨
+        return allItems.filter((item) => item.status === "ACCEPTED");
       case "completed":
         // 완료(COMPLETED)된 항목만 추출
         return allItems.filter((item) => item.status === "COMPLETED");

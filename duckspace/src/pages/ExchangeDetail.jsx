@@ -272,7 +272,11 @@ export default function ExchangeDetail() {
       {/* 4. 하단 액션 버튼 */}
       <div className="fixed bottom-0 left-0 right-0 mx-auto max-w-[430px] bg-[#FCFCFC] px-5 py-3 z-30 flex flex-col items-center gap-2">
         {tabType === "feed" && (
-          postDetail?.mine ? (
+          exchangeInfo?.status === "COMPLETED" ? (
+            <div className="flex h-12 w-full items-center justify-center rounded-lg bg-[#F4F4F4] border border-[#DEDEDE] text-[14px] font-semibold text-[#858485]">
+              교환이 완료된 게시글입니다
+            </div>
+          ) : postDetail?.mine ? (
             <div className="flex h-12 w-full items-center justify-center rounded-lg bg-[#F4F4F4] border border-[#DEDEDE] text-[14px] font-semibold text-[#858485]">
               내가 작성한 글입니다
             </div>
