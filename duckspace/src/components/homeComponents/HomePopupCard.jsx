@@ -3,14 +3,14 @@ import { IoChevronForward } from "react-icons/io5";
 
 function HomePopupCard({ popups = [] }) {
   const navigate = useNavigate();
-  const popupList = popups.slice(0, 2);
+  const popupList = popups.slice();
 
   if (popupList.length === 0) return null;
 
   return (
     <section className="mt-6 px-5">
       {/* 타이틀 영역 */}
-      <div className="mb-2 flex items-center justify-between">
+      <div className="mb-2 flex items-center  justify-between">
         <h2 className="text-[18px] font-medium text-black">
           다가오는 팝업
         </h2>
@@ -26,7 +26,7 @@ function HomePopupCard({ popups = [] }) {
       </div>
 
       {/* 팝업 카드 */}
-      <div className="flex gap-3 justify-center overflow-x-auto scrollbar-hide ">
+      <div className="flex justify-center gap-3 overflow-x-auto scrollbar-hide ">
         {popupList.map((popup) => (
           <div
             key={popup.id}
