@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { IoSwapHorizontal, IoChevronForward } from "react-icons/io5";
-import { acceptApplication, rejectApplication, cancelApplication, getPostDetail } from "../../apis/postApi";
+import { acceptApplication, rejectApplication, cancelApplication, completeApplication, getPostDetail } from "../../apis/postApi";
 import { getUserProfile } from "../../apis/userApi";
 import { createOrGetChatRoom } from "../../apis/chatApi";
 import Avatar from "../Avatar";
@@ -96,6 +96,19 @@ function ExchangeListCard({ item, activeTab, myUserId, onRefresh }) {
     } catch (error) {
       console.error("신청 수락 실패:", error);
       alert("신청 수락 중 오류가 발생했습니다.");
+    }
+  };
+
+  // 교환 완료 처리
+  const handleComplete = async () => {
+    if (!window.confirm("교환을 완료 처리하시겠습니까?")) return;
+    try {
+      await completeApplication(item.id);
+      alert("교환이 완료 처리되었습니다.");
+      if (onRefresh) onRefresh();
+    } catch (error) {
+      console.error("교환 완료 처리 실패:", error);
+      alert(error.response?.data?.error?.message || "교환 완료 처리 중 오류가 발생했습니다.");
     }
   };
 
@@ -201,7 +214,17 @@ function ExchangeListCard({ item, activeTab, myUserId, onRefresh }) {
         </div>
       )}
 
-      {(activeTab === "progress" || activeTab === "completed") && (
+      {activeTab === "progress" && (
+        <button
+          type="button"
+          onClick={handleComplete}
+          className="flex h-12 w-full items-center justify-center rounded-lg border border-[#2F78FD] bg-[#5791FB] text-[14px] font-semibold text-[#FCFCFC] cursor-pointer shadow-sm hover:bg-[#2F78FD] transition-all"
+        >
+          교환 완료
+        </button>
+      )}
+
+      {activeTab === "completed" && (
         <button
           type="button"
           onClick={handleStartChat}
