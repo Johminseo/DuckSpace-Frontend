@@ -72,14 +72,6 @@ src/
 npm install
 ```
 
-### 환경 변수
-
-프로젝트 루트에 `.env` 파일을 만들고 백엔드 API 주소를 설정합니다.
-
-```
-VITE_API_BASE_URL=https://duckspace.cloud
-```
-
 ### 로컬 실행
 
 ```bash
