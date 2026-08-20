@@ -143,8 +143,8 @@ export default function PostExchangePages() {
 
   // 필수값 검증
   const isStep1Valid = title.trim().length > 0;
-  const isStep2Valid = myGoodsName.trim().length > 0;
-  const isStep3Valid = wantGoodsName.trim().length > 0;
+  const isStep2Valid = myGoodsName.trim().length > 0 && myImages.length > 0;
+  const isStep3Valid = wantGoodsName.trim().length > 0 && wantImages.length > 0;
 
   return (
     <div className="flex min-h-screen justify-center bg-gray-100 sm:py-8">
@@ -226,13 +226,13 @@ export default function PostExchangePages() {
                     <section className="space-y-[8px]">
                       <h2 className="text-[18px] font-semibold text-[#171617]">교환할 팝업 이름(선택)</h2>
                       <div className="flex items-center gap-[4px] rounded-[8px] bg-[#FCFCFC] p-[12px] border border-[#EEEEEE] focus-within:border-[#2F78FD]">
-                        <span className={`text-[14px] ${popupName ? "text-[#2F78FD]" : "text-[#545454]"}`}>#</span>
+                        {/* <span className={`text-[14px] ${popupName ? "text-[#2F78FD]" : "text-[#545454]"}`}>#</span> */}
                         <input
                           type="text"
                           value={popupName}
                           onChange={(e) => setPopupName(e.target.value)}
                           placeholder="이름을 작성해주세요."
-                          className="w-full bg-transparent text-[14px] text-[#2F78FD] placeholder:text-[#A2A2A2] focus:outline-none"
+                          className="w-full bg-transparent text-[14px] text-black placeholder:text-[#A2A2A2] focus:outline-none"
                         />
                       </div>
                     </section>
@@ -272,7 +272,7 @@ export default function PostExchangePages() {
                   <div className="space-y-[20px]">
                     <section className="space-y-[8px]">
                       <div className="flex items-center justify-between">
-                        <h2 className="text-[18px] font-semibold text-[#171617]">내가 가진 굿즈</h2>
+                        <h2 className="text-[18px] font-semibold text-[#171617]">내가 가진 굿즈 (필수)</h2>
                         {isUploadingImage && <span className="text-xs text-[#2F78FD]">사진 업로드 중...</span>}
                       </div>
                       <div className="flex items-center gap-[12px] overflow-x-auto pb-1">
@@ -309,13 +309,13 @@ export default function PostExchangePages() {
                     <section className="space-y-[8px]">
                       <h2 className="text-[18px] font-semibold text-[#171617]">굿즈 이름 (필수)</h2>
                       <div className="flex items-center gap-[4px] rounded-[8px] bg-[#FCFCFC] p-[12px] border border-[#EEEEEE] focus-within:border-[#2F78FD]">
-                        <span className={`text-[14px] ${myGoodsName ? "text-[#2F78FD]" : "text-[#545454]"}`}>#</span>
+                        {/* <span className={`text-[14px] ${myGoodsName ? "text-[#2F78FD]" : "text-[#545454]"}`}>#</span> */}
                         <input
                           type="text"
                           value={myGoodsName}
                           onChange={(e) => setMyGoodsName(e.target.value)}
                           placeholder="굿즈 이름을 입력해주세요."
-                          className="w-full bg-transparent text-[14px] text-[#2F78FD] placeholder:text-[#A2A2A2] focus:outline-none"
+                          className="w-full bg-transparent text-[14px] text-black placeholder:text-[#A2A2A2] focus:outline-none"
                         />
                       </div>
                     </section>
