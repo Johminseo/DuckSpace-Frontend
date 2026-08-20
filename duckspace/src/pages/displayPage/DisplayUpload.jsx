@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { IoChevronBack, IoAdd } from "react-icons/io5";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useGoodsStore } from "../../store/goodsStore";
@@ -20,6 +20,9 @@ function DisplayUpload() {
     const [imageFile, setImageFile] = useState(null);
     const [previewUrl, setPreviewUrl] = useState("");
 
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const isSubmittingRef = useRef(false);
+
     const handleImageChange = (e) => {
         const file = e.target.files[0];
 
@@ -32,6 +35,8 @@ function DisplayUpload() {
     };
 
     const handleSubmit = async () => {
+      if (isSubmittingRef.current) return;
+
       if (!imageFile) {
         alert("굿즈 이미지를 등록해주세요.");
         return;
@@ -46,6 +51,9 @@ function DisplayUpload() {
         alert("장식장 정보를 찾을 수 없습니다.");
         return;
       }
+
+      isSubmittingRef.current = true;
+      setIsSubmitting(true);
 
       try {
         const data = {
@@ -103,6 +111,9 @@ function DisplayUpload() {
         );
 
         alert("굿즈 등록에 실패했습니다.");
+      } finally {
+        isSubmittingRef.current = false;
+        setIsSubmitting(false);
       }
     };
 
@@ -151,6 +162,7 @@ function DisplayUpload() {
                 accept="image/*"
                 onChange={handleImageChange}
                 className="hidden"
+                disabled={isSubmitting}
             />
         </label>
 
@@ -212,9 +224,10 @@ function DisplayUpload() {
       <button
         type="button"
         onClick={handleSubmit}
-        className="h-14 w-full cursor-pointer rounded-[8px] bg-[#5791FB] text-base font-semibold text-white"
+        disabled={isSubmitting}
+        className="h-14 w-full cursor-pointer rounded-[8px] bg-[#5791FB] text-base font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50"
       >
-        완료
+        {isSubmitting ? "등록 중..." : "완료"}
       </button>
     </div>
   );
