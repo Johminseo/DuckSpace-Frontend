@@ -3,7 +3,7 @@ import { useGoodsStore } from "../../store/goodsStore";
 
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDisplayStore } from "../../store/displayStore";
-import { addExhibitionItem, getExhibitionItem, getExhibitionItems, } from "../../apis/displayApi";
+import { addExhibitionItem, getExhibitionItems, } from "../../apis/displayApi";
 import { useEffect, useState } from "react";
 
 function DisplayList() {
@@ -11,9 +11,11 @@ function DisplayList() {
     const navigate = useNavigate();
 
     const exhibitionId = location.state?.exhibitionId;
+    // 남의 장식장 "모두보기"로 들어온 경우 — 굿즈 추가/수정 버튼을 숨긴다.
+    const readOnly = location.state?.readOnly ?? false;
 
     const addItem = useDisplayStore((state) => state.addItem);
-    const mode = location.state?.mode || "view";
+    const mode = !readOnly && location.state?.mode === "select" ? "select" : "view";
     const [goods, setGoods] = useState([]);
 
     useEffect(() => {
@@ -23,11 +25,6 @@ function DisplayList() {
         try {
           const result = await getExhibitionItems(
             exhibitionId
-          );
-
-          console.log(
-            "전시 굿즈 목록:",
-            result.data
           );
 
           setGoods(result.data.items || []);
@@ -61,14 +58,6 @@ function DisplayList() {
               }
           );
           const item = result.data;
-          console.log("POST 결과:", item);
-
-          const getResult = await getExhibitionItem(
-            exhibitionId,
-            item.itemId
-          );
-
-          console.log("단건 GET 결과:", getResult.data);
 
           addItem({
               id: item.itemId,
@@ -102,15 +91,20 @@ function DisplayList() {
 
         <h1 className="text-xl font-bold">장식장</h1>
 
-        <button
-          onClick={() =>
-            navigate("/display/upload", {
-              state: { exhibitionId },
-            })
-          }
-        >
-          <IoAdd size={32} />
-        </button>
+        {/* 남의 장식장엔 굿즈를 못 넣으니 숨긴다 */}
+        {readOnly ? (
+          <div className="w-8" />
+        ) : (
+          <button
+            onClick={() =>
+              navigate("/display/upload", {
+                state: { exhibitionId },
+              })
+            }
+          >
+            <IoAdd size={32} />
+          </button>
+        )}
       </div>
 
       {/* 검색창 */}
@@ -170,9 +164,11 @@ function DisplayList() {
                   : ""}
               </p>
 
-              <button className="text-sm text-[#B5B5B5]">
-                수정하기 &gt;
-              </button>
+              {!readOnly && (
+                <button className="text-sm text-[#B5B5B5]">
+                  수정하기 &gt;
+                </button>
+              )}
             </div>
           </div>
         ))}

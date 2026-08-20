@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { IoCheckmarkCircle } from "react-icons/io5";
 import { followUser, unfollowUser, getFollowing } from "../../apis/followApi";
 import { getUserProfile, getMyProfile, } from "../../apis/userApi";
+import Avatar from "../Avatar";
 
 function DuckTalkProfile({ profile, isMe = true }) {
 
@@ -25,8 +26,6 @@ function DuckTalkProfile({ profile, isMe = true }) {
         // 1. 내 userId 조회
         const myResult = await getMyProfile();
 
-        console.log("내 프로필 응답:", myResult);
-
         const myProfile = myResult?.data ?? myResult;
         const myUserId = myProfile?.userId;
 
@@ -37,11 +36,6 @@ function DuckTalkProfile({ profile, isMe = true }) {
 
         // 2. 내가 팔로우하고 있는 사람들 조회
         const followingResult = await getFollowing(myUserId);
-
-        console.log(
-          "내 팔로잉 목록:",
-          followingResult.data
-        );
 
         // 아래 배열 위치는 실제 GET following 응답에 맞춰야 함
         const followingData =
@@ -74,7 +68,6 @@ function DuckTalkProfile({ profile, isMe = true }) {
     try {
       const result = await getUserProfile(profile.userId);
 
-      console.log("프로필 재조회:",result);
       setCurrentProfile(result);
     } catch (error) {
       console.error(
@@ -133,15 +126,7 @@ function DuckTalkProfile({ profile, isMe = true }) {
   return (
     <div className="flex flex-col items-center justify-center pt-5 pb-3 px-5">
       {/* 아바타 원 */}
-      <div className="h-20 w-20 rounded-full bg-[#858485] mb-3 overflow-hidden">
-        {profile.profileImageUrl && (
-          <img
-            src={profile.profileImageUrl}
-            alt={profile.nickname}
-            className="h-full w-full object-cover"
-          />
-        )}
-      </div>
+      <Avatar src={profile.profileImageUrl} alt={profile.nickname} className="h-20 w-20 mb-3" />
 
       {/* 이름 & 파란 체크 */}
       <div className="flex items-center gap-1 mb-1">

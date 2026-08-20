@@ -1,15 +1,15 @@
-import { IoChevronBack, IoEllipsisHorizontal, IoHeart, IoHeartOutline } from "react-icons/io5";
+import { IoChevronBack,IoEllipsisHorizontal, IoHeart, IoHeartOutline } from "react-icons/io5";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 import DisplayEdit from "../components/DisplayEdit";
 import DisplayGoods from "../components/DisplayGoods";
 import NavBar from "../components/NavBar";
-//test
+import Avatar from "../components/Avatar";
 
 import { useDisplayStore } from "../store/displayStore";
 
-import { createExhibition , getMyExhibitions, getExhibitionDetail, likeExhibition, unlikeExhibition } from "../apis/displayApi";
+import { createExhibition , getMyExhibitions, getUserExhibitions, getExhibitionDetail, likeExhibition, unlikeExhibition } from "../apis/displayApi";
 
 import { getMyProfile, getUserProfile } from "../apis/userApi";
 import userIcon from "../assets/ducktalkIcon/userIcon.svg";
@@ -70,11 +70,13 @@ function Display() {
     viewExhibitionId ? Number(viewExhibitionId) : null
   );
   const [displayGoods, setDisplayGoods] = useState([]);
+  const [viewedOwnerId, setViewedOwnerId] = useState(null);
   // URL의 exhibitionId(남의 장식장 보기)가 바뀌면 그대로 반영하고,
   // 내 장식장으로 돌아오면 일단 비워서 남의 장식장 상세가 잠깐이라도
   // "내 장식장" 컨텍스트로 다시 그려지는 걸 막는다 (아래 fetchMyExhibitions가 새로 채운다).
   useEffect(() => {
     setActiveExhibitionId(viewExhibitionId ? Number(viewExhibitionId) : null);
+    setViewedOwnerId(null); // 다른 사람 장식장으로 넘어가면 이전 사람 탭 목록은 버림
   }, [viewExhibitionId]);
   const [activeThemeCode, setActiveThemeCode] = useState("BASIC");
   const [likeCount, setLikeCount] = useState(0);
@@ -87,8 +89,6 @@ function Display() {
     const fetchMyProfile = async () => {
       try {
         const result = await getMyProfile();
-
-        console.log("내 프로필:", result);
 
         setProfile(result);
       } catch (error) {
@@ -110,8 +110,6 @@ function Display() {
       try {
         const result = await getMyExhibitions();
 
-        console.log("내 장식장 목록:", result.data);
-
         const exhibitionList = result.data || [];
 
         setExhibitions(exhibitionList);
@@ -132,17 +130,34 @@ function Display() {
     fetchMyExhibitions();
   }, [isOwnView]);
 
+  // 남의 장식장 전체 목록 (탭으로 넘겨보기용). 상세 조회로 ownerId를 알아낸 뒤에야 부를 수 있다.
+  useEffect(() => {
+    if (isOwnView || !viewedOwnerId) return;
+
+    const fetchTheirExhibitions = async () => {
+      try {
+        const result = await getUserExhibitions(viewedOwnerId, { limit: 50 });
+        setExhibitions(result.data || []);
+      } catch (error) {
+        console.error(
+          "남의 장식장 목록 조회 실패:",
+          error.response?.data || error
+        );
+      }
+    };
+
+    fetchTheirExhibitions();
+  }, [isOwnView, viewedOwnerId]);
+
 
   const handleAddExhibition = async () => {
     try {
-      console.log("장식장 추가 버튼 클릭");
       const nextNumber = exhibitions.length + 1;
 
       const result = await createExhibition(
         `장식장 ${nextNumber}`,
         "BASIC"
       );
-      console.log("장식장 생성 응답:", result);
 
       const newExhibition = result.data;
 
@@ -199,9 +214,11 @@ function Display() {
         //  false로 고정된 채 안 바뀌는 버그가 있었다)
         setMine(isOwnView ? true : detail.mine);
 
-        // 남의 장식장이면 상세 응답의 ownerId로 그 사람 프로필을 따로 불러온다
+        // 남의 장식장이면 상세 응답의 ownerId로 그 사람 프로필을 따로 불러오고,
+        // 그 사람 장식장 목록(탭)도 이 ownerId로 따로 불러온다 (아래 effect).
         if (!isOwnView) {
           setViewingExhibitionName(detail.name || "");
+          setViewedOwnerId(detail.ownerId);
           try {
             const ownerProfile = await getUserProfile(detail.ownerId);
             setProfile(ownerProfile);
@@ -262,18 +279,18 @@ function Display() {
 
       {/* 프로필 영역 */}
       <section className="flex items-center justify-between px-7 py-5">
-        <div className="flex items-center gap-3">
-          <div className="h-14 w-14 overflow-hidden rounded-full bg-[#F4F4F4]">
-            {profile?.profileImageUrl && (
-              <img
-                src={profile.profileImageUrl}
-                alt={profile.nickname}
-                className="h-full w-full object-cover"
-              />
-            )}
-          </div>
+        <button
+          type="button"
+          onClick={() =>
+            navigate(
+              isOwnView ? "/ducktalk/mypage" : `/ducktalk/user?id=${profile?.userId}`
+            )
+          }
+          className="flex cursor-pointer items-center gap-3"
+        >
+          <Avatar src={profile?.profileImageUrl} alt={profile?.nickname} className="h-14 w-14" />
 
-          <div>
+          <div className="text-left">
             <p className="text-[20px] font-semibold text-black">
               {profile?.nickname || "사용자"}
             </p>
@@ -282,7 +299,7 @@ function Display() {
               팔로워 {profile?.followerCount ?? 0} | 팔로잉 {profile?.followingCount ?? 0}
             </p>
           </div>
-        </div>
+        </button>
 
         {mine && (
           <button
@@ -296,8 +313,8 @@ function Display() {
         )}
       </section>
 
-      {/* 탭 영역 — 남의 장식장은 목록 조회 API가 없어 클릭한 하나만 보여주므로 탭 자체를 숨긴다 */}
-      {isOwnView && (
+      {/* 탭 영역 — 내 장식장이든 남의 장식장이든 그 사람이 만든 전체 목록을 탭으로 보여준다 */}
+      {exhibitions.length > 0 && (
         <section className="px-7">
           <div className="flex overflow-x-auto border-b border-[#EEEEEE]">
             {exhibitions.map((exhibition) => (
@@ -327,21 +344,23 @@ function Display() {
               </button>
             ))}
 
-            {/* 새 장식장 추가 */}
-            <button
-              type="button"
-              onClick={handleAddExhibition}
-              className="
-                shrink-0
-                min-w-[120px]
-                cursor-pointer
-                py-3
-                text-[26px]
-                text-[#A2A2A2]
-              "
-            >
-              +
-            </button>
+            {/* 새 장식장 추가 — 남의 장식장엔 못 만드니 숨긴다 */}
+            {isOwnView && (
+              <button
+                type="button"
+                onClick={handleAddExhibition}
+                className="
+                  shrink-0
+                  min-w-[120px]
+                  cursor-pointer
+                  py-3
+                  text-[26px]
+                  text-[#A2A2A2]
+                "
+              >
+                +
+              </button>
+            )}
           </div>
         </section>
       )}

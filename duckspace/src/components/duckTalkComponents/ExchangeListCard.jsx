@@ -4,6 +4,7 @@ import { IoSwapHorizontal, IoChevronForward } from "react-icons/io5";
 import { acceptApplication, rejectApplication, cancelApplication, getPostDetail } from "../../apis/postApi";
 import { getUserProfile } from "../../apis/userApi";
 import { createOrGetChatRoom } from "../../apis/chatApi";
+import Avatar from "../Avatar";
 
 function ExchangeListCard({ item, activeTab, myUserId, onRefresh }) {
   const navigate = useNavigate();
@@ -49,7 +50,7 @@ function ExchangeListCard({ item, activeTab, myUserId, onRefresh }) {
   const handleStartChat = async () => {
     try {
       if (item.roomId) {
-        navigate(`/chat/${item.roomId}`, { state: { partnerNickname: partnerName } });
+        navigate(`/chat/${item.roomId}`, { state: { partnerId: partner?.id, partnerNickname: partnerName } });
         return;
       }
 
@@ -59,11 +60,10 @@ function ExchangeListCard({ item, activeTab, myUserId, onRefresh }) {
       }
 
       const roomData = await createOrGetChatRoom(partner.id);
-      const targetRoomId =
-        roomData?.roomId || roomData?.id || roomData?.chatRoomId || (typeof roomData === "number" ? roomData : null);
+      const targetRoomId = roomData?.roomId;
 
       if (targetRoomId) {
-        navigate(`/chat/${targetRoomId}`, { state: { partnerNickname: partnerName } });
+        navigate(`/chat/${targetRoomId}`, { state: { partnerId: partner.id, partnerNickname: partnerName } });
       } else {
         alert("채팅방 번호를 응답받지 못했습니다.");
       }
@@ -116,18 +116,16 @@ function ExchangeListCard({ item, activeTab, myUserId, onRefresh }) {
     <div className="flex flex-col gap-4 rounded-2xl border border-[#F4F4F4] bg-white/75 p-4 sm:p-5 shadow-[0px_15px_40px_rgba(205.52,205.52,205.52,0.08)] backdrop-blur-[10px]">
       {/* 1. 상대방 프로필 정보 */}
       <div className="flex items-center justify-between rounded-lg border border-[#F4F4F4] px-5 py-2">
-        <div className="flex items-center gap-3">
-          <div className="h-9 w-9 shrink-0 rounded-full bg-[#858485] overflow-hidden flex items-center justify-center text-white text-xs">
-            {partnerProfileImage ? (
-              <img src={partnerProfileImage} alt={partnerName} className="h-full w-full object-cover" />
-            ) : (
-              partnerName.slice(0, 1)
-            )}
-          </div>
+        <button
+          type="button"
+          onClick={() => partner?.id && navigate(`/ducktalk/user?id=${partner.id}`)}
+          className="flex cursor-pointer items-center gap-3"
+        >
+          <Avatar src={partnerProfileImage} alt={partnerName} className="h-9 w-9 shrink-0" />
           <span className="text-[16px] font-semibold leading-[20.8px] text-[#171617]">
             {partnerName}
           </span>
-        </div>
+        </button>
         <span className="text-[13px] font-medium text-[#2F78FD]">
           {item.status === "APPLIED" && "대기중"}
           {item.status === "ACCEPTED" && "수락됨"}

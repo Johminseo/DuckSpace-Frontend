@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { IoChevronBack, IoCheckmarkCircle } from "react-icons/io5";
 
 import NavBar from "../components/NavBar";
+import Avatar from "../components/Avatar";
 
 import { getFollowing, getFollowers, } from "../apis/followApi";
 
@@ -32,8 +33,6 @@ function DuckTalkFollowPage() {
         } else {
           result = await getFollowers(userId);
         }
-
-        console.log("팔로우 목록 조회:", result);
 
         const data = result?.data ?? result;
 
@@ -128,15 +127,7 @@ function DuckTalkFollowPage() {
             >
               <div className="flex items-center gap-3">
                 {/* 프로필 이미지 */}
-                <div className="h-11 w-11 overflow-hidden rounded-full bg-[#DEDEDE]">
-                  {user.profileImageUrl && (
-                    <img
-                      src={user.profileImageUrl}
-                      alt={user.nickname}
-                      className="h-full w-full object-cover"
-                    />
-                  )}
-                </div>
+                <Avatar src={user.profileImageUrl} alt={user.nickname} className="h-11 w-11" />
 
                 {/* 닉네임 */}
                 <span className="text-[16px] font-semibold text-[#171617]">

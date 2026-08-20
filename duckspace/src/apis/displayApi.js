@@ -142,6 +142,21 @@ export const getPrimaryExhibition = async (userId) => {
   return response.data;
 };
 
+// 남의 장식장 전체 목록 (탭으로 넘겨보기용). /api/exhibitions/me와 응답 모양 동일,
+// 만든 순서(오래된 것부터)로 옴. cursor 안 보내면 첫 페이지.
+export const getUserExhibitions = async (userId, { cursor, limit } = {}) => {
+  const params = {};
+  if (cursor) params.cursor = cursor;
+  if (limit) params.limit = limit;
+
+  const response = await api.get(
+    `/api/exhibitions/users/${userId}`,
+    { params }
+  );
+
+  return response.data;
+};
+
 export const updateExhibition = async (
   exhibitionId,
   { name, themeCode }

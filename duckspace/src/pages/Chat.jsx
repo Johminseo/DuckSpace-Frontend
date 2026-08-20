@@ -3,13 +3,15 @@ import { IoChevronBack } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 
 import NavBar from "../components/NavBar";
+import Avatar from "../components/Avatar";
 import { getChatRooms } from "../apis/chatApi";
-import defaultProfile from "../assets/defaultProfile.png";
+import { getUserProfile } from "../apis/userApi";
 
 function Chat() {
   const navigate = useNavigate();
   const [rooms, setRooms] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [profileImages, setProfileImages] = useState({}); // partnerId -> profileImageUrl
 
   // 참여 중인 채팅방 목록 조회
   useEffect(() => {
@@ -28,6 +30,27 @@ function Chat() {
     fetchRooms();
   }, []);
 
+  // 채팅방 목록 API는 상대방 프로필 이미지를 안 주므로, partnerId로 유저 정보를 따로 채운다
+  useEffect(() => {
+    const partnerIds = [
+      ...new Set(rooms.map((room) => room.partnerId).filter(Boolean)),
+    ];
+    if (partnerIds.length === 0) return;
+
+    Promise.all(
+      partnerIds.map((id) =>
+        getUserProfile(id)
+          .then((profile) => [id, profile?.profileImageUrl || null])
+          .catch((error) => {
+            console.error("상대방 프로필 조회 실패:", error);
+            return [id, null];
+          })
+      )
+    ).then((results) => {
+      setProfileImages(Object.fromEntries(results));
+    });
+  }, [rooms]);
+
   const formatTime = (dateString) => {
     if (!dateString) return "";
     const date = new Date(dateString);
@@ -43,15 +66,24 @@ function Chat() {
   };
 
   const handleRoomClick = (room) => {
-    const roomId = room.roomId || room.id;
-    const partnerNickname =
-      room.partnerNickname || room.opponentNickname || room.targetNickname || "상대방";
+    const roomId = room.roomId;
+    const partnerId = room.partnerId;
+    const partnerNickname = room.partnerNickname || "상대방";
+    const partnerProfileImageUrl = profileImages[partnerId] || null;
 
     navigate(`/chat/${roomId}`, {
       state: {
+        partnerId,
         partnerNickname,
+        partnerProfileImageUrl,
       },
     });
+  };
+
+  const handleProfileClick = (e, partnerId) => {
+    e.stopPropagation();
+    if (!partnerId) return;
+    navigate(`/ducktalk/user?id=${partnerId}`);
   };
 
   return (
@@ -82,26 +114,37 @@ function Chat() {
           </div>
         ) : (
           rooms.map((room) => {
-            const roomId = room.roomId || room.id;
-            const partnerName =
-              room.partnerNickname || room.opponentNickname || room.targetNickname || "상대방";
-            const lastMsg = room.lastMessage || room.latestMessage?.content || "대화 내용이 없습니다.";
-            const lastTime = room.lastMessageAt || room.updatedAt || room.latestMessage?.createdAt;
-            const hasUnread = room.hasUnread || (room.unreadCount && room.unreadCount > 0);
+            const roomId = room.roomId;
+            const partnerId = room.partnerId;
+            const partnerName = room.partnerNickname || "상대방";
+            const lastMsg = room.lastMessage || "대화 내용이 없습니다.";
+            const lastTime = room.lastMessageAt;
+            const hasUnread = room.hasUnread;
 
             return (
-              <button
+              <div
                 key={roomId}
-                type="button"
+                role="button"
+                tabIndex={0}
                 onClick={() => handleRoomClick(room)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") handleRoomClick(room);
+                }}
                 className="flex w-full items-center border-b border-[#F4F4F4] px-5 py-4 text-left cursor-pointer hover:bg-gray-50/70 transition-colors"
               >
-                {/* 프로필 이미지 */}
-                <img
-                  src={room.partnerProfileUrl || defaultProfile}
-                  alt="프로필"
-                  className="h-[40px] w-[40px] shrink-0 rounded-full object-cover bg-gray-100"
-                />
+                {/* 프로필 이미지 — 누르면 채팅방이 아니라 상대방 프로필로 이동 */}
+                <button
+                  type="button"
+                  onClick={(e) => handleProfileClick(e, partnerId)}
+                  className="shrink-0 cursor-pointer"
+                  aria-label={`${partnerName} 프로필 보기`}
+                >
+                  <Avatar
+                    src={profileImages[partnerId]}
+                    alt="프로필"
+                    className="h-[40px] w-[40px]"
+                  />
+                </button>
 
                 {/* 채팅 요약 정보 */}
                 <div className="ml-3 min-w-0 flex-1">
@@ -127,7 +170,7 @@ function Chat() {
                     {lastMsg}
                   </p>
                 </div>
-              </button>
+              </div>
             );
           })
         )}

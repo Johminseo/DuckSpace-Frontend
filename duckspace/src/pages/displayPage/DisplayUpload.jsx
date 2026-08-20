@@ -63,22 +63,11 @@ function DisplayUpload() {
           price: price ? Number(price) : 0,
           comment: comment.trim(),
         };
-        // // 이거도 개발용 코드, 후에 전체 삭제후 아래 주석 코드 사용
-        // const result = await addExhibitionItem(
-        //   exhibitionId,
-        //   data
-        // );
-        // console.log( "개발용 굿즈 등록 성공:", result.data);
-        
-        
+
         const uploadResult = await uploadExhibitionItem(
           exhibitionId,
           imageFile,
           data
-        );
-        console.log(
-          "실제 이미지 업로드 결과:",
-          uploadResult.data
         );
         const uploadedItem = uploadResult.data;
         const itemId = uploadedItem.itemId;
@@ -93,11 +82,6 @@ function DisplayUpload() {
             itemId
           );
           finalItem = pollResult.data;
-          console.log(
-            "굿즈 처리 상태:",
-            finalItem.status,
-            finalItem
-          );
         }
         // 처리 실패
         if (finalItem.status === "FAILED") {
@@ -108,15 +92,6 @@ function DisplayUpload() {
           alert("이미지 처리에 실패했습니다.");
           return;
         }
-        // 처리 완료
-        if (finalItem.status === "READY") {
-          console.log(
-            "굿즈 READY:",
-            finalItem
-          );
-        }
-        
-        console.log("굿즈 업로드 성공:", finalItem);
 
         alert("굿즈가 등록되었습니다.");
 

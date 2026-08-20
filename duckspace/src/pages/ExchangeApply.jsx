@@ -115,15 +115,12 @@ export default function ExchangeApply() {
         return;
       }
 
-      console.log("전송할 상대방 ID:", numericPartnerId);
-
       const roomData = await createOrGetChatRoom(numericPartnerId);
-      const targetRoomId =
-        roomData?.roomId || roomData?.id || roomData?.chatRoomId || (typeof roomData === "number" ? roomData : null);
+      const targetRoomId = roomData?.roomId;
 
       if (targetRoomId) {
         const partnerName = postDetail?.authorNickname || "상대방";
-        navigate(`/chat/${targetRoomId}`, { state: { partnerNickname: partnerName } });
+        navigate(`/chat/${targetRoomId}`, { state: { partnerId: numericPartnerId, partnerNickname: partnerName } });
       } else {
         alert("채팅방 번호를 응답받지 못했습니다.");
       }

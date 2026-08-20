@@ -10,7 +10,7 @@ import shelfIcon from "../assets/shelfIcon.svg";
 
 import { getUserProfile } from "../apis/userApi";
 import { getCasualPosts, getExchangePosts } from "../apis/postApi";
-import { getPrimaryExhibition } from "../apis/displayApi";
+import { getUserExhibitions } from "../apis/displayApi";
 
 function DuckTalkUserPage() {
   const navigate = useNavigate();
@@ -23,17 +23,25 @@ function DuckTalkUserPage() {
   const [exchangePosts, setExchangePosts] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // 이 유저의 대표 장식장으로 이동. 장식장이 하나도 없으면 404가 옴.
+  // 이 유저의 장식장 목록에서 가장 오래된(exhibitionId가 가장 낮은) 걸 첫 화면으로 이동.
+  // 거기서부터는 Display.jsx가 같은 유저의 나머지 장식장을 탭으로 보여준다.
   const handleViewExhibition = async () => {
     try {
-      const result = await getPrimaryExhibition(userId);
-      navigate(`/display?id=${result.data.exhibitionId}`);
-    } catch (error) {
-      if (error.response?.status === 404) {
+      const result = await getUserExhibitions(userId, { limit: 50 });
+      const list = result.data || [];
+
+      if (list.length === 0) {
         alert("아직 만든 장식장이 없는 유저예요.");
-      } else {
-        console.error("대표 장식장 조회 실패:", error.response?.data || error);
+        return;
       }
+
+      const firstExhibition = list.reduce((oldest, exhibition) =>
+        exhibition.exhibitionId < oldest.exhibitionId ? exhibition : oldest
+      );
+
+      navigate(`/display?id=${firstExhibition.exhibitionId}`);
+    } catch (error) {
+      console.error("장식장 목록 조회 실패:", error.response?.data || error);
     }
   };
 

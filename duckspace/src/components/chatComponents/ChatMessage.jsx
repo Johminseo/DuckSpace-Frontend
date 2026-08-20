@@ -1,9 +1,19 @@
+import { useNavigate } from "react-router-dom";
+import Avatar from "../Avatar";
+
 function ChatMessage({
   message,
+  partnerId,
   partnerNickname,
   profileImage,
 }) {
-  const isMine = message.mine ?? message.isMine ?? false;
+  const navigate = useNavigate();
+  const isMine = message.mine ?? false;
+
+  const handleProfileClick = () => {
+    if (!partnerId) return;
+    navigate(`/ducktalk/user?id=${partnerId}`);
+  };
 
   const formatTime = (dateString) => {
     if (!dateString) return "";
@@ -33,16 +43,23 @@ function ChatMessage({
 
   return (
     <div className="flex items-start gap-2 max-w-[80%]">
-      <img
-        src={profileImage}
-        alt="프로필"
-        className="h-[36px] w-[36px] shrink-0 rounded-full object-cover bg-gray-100 mt-1"
-      />
+      <button
+        type="button"
+        onClick={handleProfileClick}
+        className="shrink-0 cursor-pointer"
+        aria-label={`${partnerNickname} 프로필 보기`}
+      >
+        <Avatar src={profileImage} alt="프로필" className="h-[36px] w-[36px] mt-1" />
+      </button>
 
       <div>
-        <p className="mb-1 text-[13px] font-medium text-black">
+        <button
+          type="button"
+          onClick={handleProfileClick}
+          className="mb-1 cursor-pointer text-[13px] font-medium text-black"
+        >
           {partnerNickname}
-        </p>
+        </button>
 
         <div className="flex items-end gap-2">
           <div className="rounded-[100px] bg-[#DEDEDE] px-[20px] py-[8px] text-[14px] text-[#171617] break-all">

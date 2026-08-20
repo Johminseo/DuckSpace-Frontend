@@ -11,8 +11,7 @@ import {
 } from "../apis/searchApi";
 import { getExhibitionFeed } from "../apis/displayApi";
 import ExhibitionCardPreview from "../components/ExhibitionCardPreview";
-
-import defaultProfile from "../assets/defaultProfile.png";
+import Avatar from "../components/Avatar";
 
 const FEED_PAGE_SIZE = 12;
 
@@ -24,13 +23,7 @@ function UserRow({ user, onSelect }) {
       onClick={onSelect}
       className="flex cursor-pointer items-center gap-3 rounded-lg border border-[#F4F4F4] px-3 py-2.5 transition-colors hover:bg-[#FAFAFA]"
     >
-      <div className="h-9 w-9 shrink-0 overflow-hidden rounded-full bg-[#858485]">
-        <img
-          src={user.profileImageUrl || defaultProfile}
-          alt={user.nickname}
-          className="h-full w-full object-cover"
-        />
-      </div>
+      <Avatar src={user.profileImageUrl} alt={user.nickname} className="h-9 w-9 shrink-0" />
       <span className="text-[15px] font-semibold text-[#171617]">
         {user.nickname}
       </span>

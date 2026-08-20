@@ -1,24 +1,30 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
+  IoHeart,
   IoHeartOutline,
-  IoChatbubbleOutline,
-  IoEllipsisHorizontal,
+  IoTrashOutline,
   IoSwapHorizontal,
 } from "react-icons/io5";
 import {
-  reportPost,
   getPostDetail,
   getPostApplications,
   completeExchange,
+  likePost,
+  unlikePost,
+  deletePost,
 } from "../../apis/postApi";
 import { getUserProfile } from "../../apis/userApi";
+import Avatar from "../Avatar";
 
 function DuckTalkExchangeCard({ post, mode = "feed", onRefresh }) {
   const navigate = useNavigate();
   const [offeredItemDetail, setOfferedItemDetail] = useState(null);
   const [applicationCount, setApplicationCount] = useState(null);
   const [authorProfileImage, setAuthorProfileImage] = useState(null);
+  const [liked, setLiked] = useState(post.liked ?? false);
+  const [likeCount, setLikeCount] = useState(post.likeCount ?? 0);
+  const [isLiking, setIsLiking] = useState(false);
 
   // 마이페이지에서는 목록 API가 안 주는 아이템 이미지/상태와 신청 건수를 카드마다 따로 가져옴
   useEffect(() => {
@@ -60,17 +66,43 @@ function DuckTalkExchangeCard({ post, mode = "feed", onRefresh }) {
     navigate("/ducktalk/exchange/list?tab=received");
   };
 
-  // 게시글 신고
-  const handleReport = async (e) => {
+  // 게시글 삭제 (내 글)
+  const handleDelete = async (e) => {
     e.stopPropagation();
-    const reason = window.prompt("신고 사유를 입력해주세요. (선택 사항)", "");
-    if (reason === null) return;
+    if (!window.confirm("게시글을 삭제하시겠습니까?")) return;
     try {
-      await reportPost(post.id, { reason });
-      alert("신고가 접수되었습니다.");
+      await deletePost(post.id);
+      onRefresh?.();
     } catch (error) {
-      console.error("게시글 신고 실패:", error);
-      alert("신고 접수 중 오류가 발생했습니다.");
+      console.error("게시글 삭제 실패:", error);
+      alert("게시글 삭제 중 오류가 발생했습니다.");
+    }
+  };
+
+  // 좋아요 토글 (카드 클릭으로 상세 이동되는 것 방지)
+  const handleToggleLike = async (e) => {
+    e.stopPropagation();
+    if (isLiking) return;
+    try {
+      setIsLiking(true);
+      if (liked) {
+        await unlikePost(post.id);
+        setLiked(false);
+        setLikeCount((prev) => Math.max(0, prev - 1));
+      } else {
+        await likePost(post.id);
+        setLiked(true);
+        setLikeCount((prev) => prev + 1);
+      }
+    } catch (error) {
+      // 목록 API는 내 좋아요 여부를 안 주므로, 이미 누른 글이면 409가 떨어짐 -> 상태만 동기화
+      if (error.response?.status === 409) {
+        setLiked((prev) => !prev);
+      } else {
+        console.error("좋아요 처리 실패:", error);
+      }
+    } finally {
+      setIsLiking(false);
     }
   };
 
@@ -112,47 +144,18 @@ function DuckTalkExchangeCard({ post, mode = "feed", onRefresh }) {
       className="flex flex-col gap-4 rounded-xl border border-[#F4F4F4] bg-white/75 p-5 shadow-[0_15px_40px_rgba(205,205,205,0.08)] backdrop-blur-[10px] cursor-pointer hover:border-[#A6C3F8] transition-all"
     >
       {/* 1. 상단 작성자 정보 */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-2">
         <div
           onClick={handleAuthorClick}
           className="flex items-center gap-3 cursor-pointer"
         >
-          <div className="h-7 w-7 shrink-0 overflow-hidden rounded-full bg-[#E5E5E5] flex items-center justify-center text-xs font-semibold text-[#858485]">
-            {authorProfileImage ? (
-              <img
-                src={authorProfileImage}
-                alt={authorName}
-                className="h-full w-full object-cover"
-              />
-            ) : (
-              authorName.slice(0, 1)
-            )}
-          </div>
-          <div className="flex items-center gap-3">
-            <span className="text-[15px] font-semibold text-[#171617]">
-              {authorName}
-            </span>
-            <span className="text-[12px] text-[#858485]">{formattedDate}</span>
-          </div>
+          <Avatar src={authorProfileImage} alt={authorName} className="h-7 w-7 shrink-0" />
+          <span className="max-w-[110px] sm:max-w-[160px] md:max-w-[200px] shrink-0 truncate text-[15px] font-semibold text-[#171617]">
+            {authorName}
+          </span>
         </div>
 
-        {mode === "myPage" ? (
-          <button 
-            type="button" 
-            onClick={(e) => e.stopPropagation()} 
-            className="text-[#A2A2A2] cursor-pointer"
-          >
-            <IoEllipsisHorizontal size={20} />
-          </button>
-        ) : (
-          <button
-            type="button"
-            onClick={handleReport}
-            className="text-[12px] text-[#858485] cursor-pointer hover:underline"
-          >
-            신고하기
-          </button>
-        )}
+        <span className="shrink-0 text-[12px] text-[#858485]">{formattedDate}</span>
       </div>
 
       {/* 2. 교환 제목 / 내용 */}
@@ -216,16 +219,32 @@ function DuckTalkExchangeCard({ post, mode = "feed", onRefresh }) {
         </div>
       )}
 
-      {/* 4. 좋아요 / 댓글 수 */}
-      <div className="flex items-center gap-3 text-[#545454]">
-        <div className="flex items-center gap-1.5">
-          <IoHeartOutline size={18} className="text-[#545454]" />
-          <span className="text-[13px] font-semibold">{post.likeCount ?? 0}</span>
-        </div>
-        <div className="flex items-center gap-1.5">
-          <IoChatbubbleOutline size={17} className="text-[#545454]" />
-          <span className="text-[13px] font-semibold">{post.commentCount ?? 0}</span>
-        </div>
+      {/* 4. 좋아요 + 신고/메뉴 버튼 */}
+      <div className="flex items-center justify-between gap-3 text-[#545454]">
+        <button
+          type="button"
+          onClick={handleToggleLike}
+          disabled={isLiking}
+          className="flex items-center gap-1.5 cursor-pointer disabled:cursor-not-allowed"
+        >
+          {liked ? (
+            <IoHeart size={18} className="text-[#FF5A5A]" />
+          ) : (
+            <IoHeartOutline size={18} className="text-[#545454]" />
+          )}
+          <span className="text-[13px] font-semibold">{likeCount}</span>
+        </button>
+
+        {mode === "myPage" && (
+          <button
+            type="button"
+            onClick={handleDelete}
+            className="shrink-0 text-[#A2A2A2] cursor-pointer"
+            aria-label="게시글 삭제"
+          >
+            <IoTrashOutline size={13} />
+          </button>
+        )}
       </div>
 
       {/* 5. 하단 버튼 영역 */}

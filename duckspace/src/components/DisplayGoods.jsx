@@ -43,7 +43,7 @@ function DisplayGoods({ goods = [], exhibitionId, readOnly = false, onDeleted, }
         <button
           onClick={() =>
             navigate("/display/list", {
-              state: { mode: "view", exhibitionId, },
+              state: { mode: "view", exhibitionId, readOnly },
             })
           }
           className="flex cursor-pointer items-center text-sm text-[#A2A2A2]"

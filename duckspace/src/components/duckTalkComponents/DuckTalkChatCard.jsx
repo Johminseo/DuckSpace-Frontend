@@ -4,10 +4,11 @@ import {
   IoHeart,
   IoHeartOutline,
   IoChatbubbleOutline,
-  IoEllipsisHorizontal,
+  IoTrashOutline,
 } from "react-icons/io5";
-import { reportPost, deletePost, getPostDetail, likePost, unlikePost } from "../../apis/postApi";
+import { deletePost, getPostDetail, likePost, unlikePost } from "../../apis/postApi";
 import { getUserProfile } from "../../apis/userApi";
+import Avatar from "../Avatar";
 
 function DuckTalkChatCard({ post, mode = "feed", onRefresh }) {
   const navigate = useNavigate();
@@ -67,20 +68,6 @@ function DuckTalkChatCard({ post, mode = "feed", onRefresh }) {
     navigate(`/ducktalk/post/${post.id}`);
   };
 
-  // 게시글 신고
-  const handleReport = async (e) => {
-    e.stopPropagation();
-    const reason = window.prompt("신고 사유를 입력해주세요. (선택 사항)", "");
-    if (reason === null) return;
-    try {
-      await reportPost(post.id, { reason });
-      alert("신고가 접수되었습니다.");
-    } catch (error) {
-      console.error("게시글 신고 실패:", error);
-      alert("신고 접수 중 오류가 발생했습니다.");
-    }
-  };
-
   // 게시글 삭제 (내 글)
   const handleDelete = async (e) => {
     e.stopPropagation();
@@ -113,50 +100,22 @@ function DuckTalkChatCard({ post, mode = "feed", onRefresh }) {
       className="flex flex-col gap-3 rounded-xl border border-[#F4F4F4] bg-white/75 p-5 shadow-[0_15px_40px_rgba(205,205,205,0.08)] backdrop-blur-[10px] cursor-pointer hover:border-[#A6C3F8] transition-all"
     >
       {/* 1. 상단 작성자 정보 (클릭 시 이동) */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-2">
         <div
           onClick={handleAuthorClick}
           className="flex items-center gap-3 cursor-pointer"
         >
-          <div className="h-6 w-6 shrink-0 overflow-hidden rounded-full bg-[#DEDEDE]">
-            {authorProfileImage && (
-              <img
-                src={authorProfileImage}
-                alt={authorName}
-                className="h-full w-full object-cover"
-              />
-            )}
-          </div>
-          <div className="flex items-center gap-3">
-            <span className="text-[16px] font-semibold text-[#171617]">
-              {/*{post.author} //// 여기!!!! */} 
-              {authorName}
-            </span>
-            <span className="text-[12px] text-[#858485]">
-              {/*{post.date} //// 여기!!!! */} 
-              {formattedDate}
-            </span>
-          </div>
+          <Avatar src={authorProfileImage} alt={authorName} className="h-6 w-6 shrink-0" />
+          <span className="max-w-[110px] sm:max-w-[160px] md:max-w-[200px] shrink-0 truncate text-[16px] font-semibold text-[#171617]">
+            {/*{post.author} //// 여기!!!! */}
+            {authorName}
+          </span>
         </div>
 
-        {isMe ? (
-          <button
-            type="button"
-            onClick={handleDelete}
-            className="text-[#A2A2A2] cursor-pointer"
-            aria-label="게시글 삭제"
-          >
-            <IoEllipsisHorizontal size={20} />
-          </button>
-        ) : (
-          <button
-            type="button"
-            onClick={handleReport}
-            className="text-[12px] text-[#858485] cursor-pointer hover:underline"
-          >
-            신고하기
-          </button>
-        )}
+        <span className="shrink-0 text-[12px] text-[#858485]">
+          {/*{post.date} //// 여기!!!! */}
+          {formattedDate}
+        </span>
       </div>
 
       {/* 2. 본문 내용 */}
@@ -175,25 +134,38 @@ function DuckTalkChatCard({ post, mode = "feed", onRefresh }) {
         </div>
       )}
 
-      {/* 4. 하단 좋아요 & 댓글 */}
-      <div className="flex items-center gap-3 text-[#545454] pt-1">
-        <button
-          type="button"
-          onClick={handleToggleLike}
-          disabled={isLiking}
-          className="flex items-center gap-1.5 cursor-pointer disabled:cursor-not-allowed"
-        >
-          {liked ? (
-            <IoHeart size={20} className="text-[#FF5A5A]" />
-          ) : (
-            <IoHeartOutline size={20} className="text-[#545454]" />
-          )}
-          <span className="text-[14px] font-semibold leading-[21px]">{likeCount}</span>
-        </button>
-        <div className="flex items-center gap-1.5">
-          <IoChatbubbleOutline size={18} className="text-[#545454]" />
-          <span className="text-[14px] font-semibold leading-[21px]">{post.commentCount}</span>
+      {/* 4. 하단 좋아요 & 댓글 + 신고/메뉴 버튼 */}
+      <div className="flex items-center justify-between gap-3 pt-1">
+        <div className="flex items-center gap-3 text-[#545454]">
+          <button
+            type="button"
+            onClick={handleToggleLike}
+            disabled={isLiking}
+            className="flex items-center gap-1.5 cursor-pointer disabled:cursor-not-allowed"
+          >
+            {liked ? (
+              <IoHeart size={20} className="text-[#FF5A5A]" />
+            ) : (
+              <IoHeartOutline size={20} className="text-[#545454]" />
+            )}
+            <span className="text-[14px] font-semibold leading-[21px]">{likeCount}</span>
+          </button>
+          <div className="flex items-center gap-1.5">
+            <IoChatbubbleOutline size={18} className="text-[#545454]" />
+            <span className="text-[14px] font-semibold leading-[21px]">{post.commentCount}</span>
+          </div>
         </div>
+
+        {isMe && (
+          <button
+            type="button"
+            onClick={handleDelete}
+            className="shrink-0 text-[#A2A2A2] cursor-pointer"
+            aria-label="게시글 삭제"
+          >
+            <IoTrashOutline size={13} />
+          </button>
+        )}
       </div>
     </div>
   );
