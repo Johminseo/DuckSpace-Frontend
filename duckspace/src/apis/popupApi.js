@@ -6,7 +6,7 @@ export const getPopups = async () => {
   return res.data.data;
 };
 
-// AI 요약만 실제 값을 쓰고 나머지 상세 정보는 화면에서 목업으로 채운다.
+// 백엔드 PR #103 반영 후 상세 필드(benefitImageUrl/benefitDescription/operatingHours 포함) 전부 실제 값.
 export const getPopupDetail = async (popupId) => {
   const res = await api.get(`/api/popups/${popupId}`);
   return res.data.data;

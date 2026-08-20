@@ -5,6 +5,9 @@ import { IoChevronBack, IoHeart, IoHeartOutline } from "react-icons/io5";
 import displayBack from "../assets/displaybackgrounds/display_back.png";
 import { getPopupDetail, likePopup, unlikePopup } from "../apis/popupApi";
 
+// "2026-08-10" -> "2026.08.10" (PopupSchedule.jsx와 동일한 포맷)
+const formatDate = (isoDate) => (isoDate ? isoDate.replaceAll("-", ".") : "");
+
 function PopupDetail() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -13,7 +16,8 @@ function PopupDetail() {
   const [popupDetail, setPopupDetail] = useState(null);
   const [loadingSummary, setLoadingSummary] = useState(!!popupId);
 
-  // 배너 이미지 + AI 요약 + 찜 여부만 실제 데이터. 그 외 정보는 아래 목업 그대로.
+  // 백엔드 PR #103(상세 응답에 benefitImageUrl/benefitDescription/operatingHours 추가) 반영 후
+  // 배너 이미지 + AI 요약 + 찜 여부 + 아래 상세 정보 전부 실제 데이터.
   useEffect(() => {
     if (!popupId) return;
 
@@ -85,12 +89,14 @@ function PopupDetail() {
 
       <div className="px-5 pt-4">
         {/* 기본 정보 */}
-        <h1 className="text-[20px] font-semibold text-[#171617]">치이카와 카페 in 성수</h1>
-        <p className="mt-1 text-[13px] text-[#858485]">XX.06.06(월)~XX.07.10(토)</p>
-        <p className="text-[13px] text-[#858485]">11:00 ~ 22:00 (30분 단위 운영)</p>
-        <p className="mt-1 text-[13px] text-[#545454]">
-          서울 성동구 성수이로 74 (성수동2가) 무신사 스토어 성수
+        <h1 className="text-[20px] font-semibold text-[#171617]">{popupDetail?.title}</h1>
+        <p className="mt-1 text-[13px] text-[#858485]">
+          {formatDate(popupDetail?.startDate)} ~ {formatDate(popupDetail?.endDate)}
         </p>
+        {popupDetail?.operatingHours && (
+          <p className="text-[13px] text-[#858485]">{popupDetail.operatingHours}</p>
+        )}
+        <p className="mt-1 text-[13px] text-[#545454]">{popupDetail?.location}</p>
 
         {/* AI 요약 — 실제 API 연동 */}
         <section className="mt-6">
@@ -106,26 +112,36 @@ function PopupDetail() {
           </div>
         </section>
 
-        {/* 팝업 소개 — 목업 */}
-        <section className="mt-6">
-          <h2 className="text-[16px] font-semibold text-[#171617]">팝업 소개</h2>
-          <p className="mt-2 text-[14px] leading-[22px] text-[#545454]">
-            인기 캐릭터 치이카와(먼작귀)가 귀여운 스시 콘셉트로 꾸며진 &apos;치이카와 스시
-            팝업&apos;을 성수에 오픈해요.
-          </p>
-        </section>
+        {/* 팝업 소개 */}
+        {popupDetail?.description && (
+          <section className="mt-6">
+            <h2 className="text-[16px] font-semibold text-[#171617]">팝업 소개</h2>
+            <p className="mt-2 text-[14px] leading-[22px] text-[#545454] whitespace-pre-wrap">
+              {popupDetail.description}
+            </p>
+          </section>
+        )}
 
-        {/* 혜택 및 굿즈 — 목업 */}
-        <section className="mt-6">
-          <h2 className="text-[16px] font-semibold text-[#171617]">혜택 및 굿즈</h2>
-          <div className="mt-2 h-[200px] w-full overflow-hidden rounded-lg bg-[#CDDCF7]">
-            <img src={displayBack} alt="혜택 및 굿즈" className="h-full w-full object-cover" />
-          </div>
-          <p className="mt-2 text-[14px] leading-[22px] text-[#545454]">
-            치이카와 스시 쇼핑백 팝업스토어 한정 판매(500원) 구매 시, 젓가락 떡메모지(30매) 증정.
-            7만 원 이상 구매 시, 아크릴 젓가락 받침대 증정.
-          </p>
-        </section>
+        {/* 혜택 및 굿즈 — benefitImageUrl/benefitDescription 둘 다 없으면 섹션 자체를 숨김 */}
+        {(popupDetail?.benefitImageUrl || popupDetail?.benefitDescription) && (
+          <section className="mt-6">
+            <h2 className="text-[16px] font-semibold text-[#171617]">혜택 및 굿즈</h2>
+            {popupDetail.benefitImageUrl && (
+              <div className="mt-2 h-[200px] w-full overflow-hidden rounded-lg bg-[#CDDCF7]">
+                <img
+                  src={popupDetail.benefitImageUrl}
+                  alt="혜택 및 굿즈"
+                  className="h-full w-full object-cover"
+                />
+              </div>
+            )}
+            {popupDetail.benefitDescription && (
+              <p className="mt-2 text-[14px] leading-[22px] text-[#545454] whitespace-pre-wrap">
+                {popupDetail.benefitDescription}
+              </p>
+            )}
+          </section>
+        )}
       </div>
     </div>
   );

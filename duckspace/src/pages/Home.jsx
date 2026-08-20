@@ -6,13 +6,10 @@ import HomePopupCard from "../components/homeComponents/HomePopupCard";
 import HomeExhibition from "../components/homeComponents/HomeExhibition";
 import Logo from "../assets/Logo.png"
 
-import { useNavigate } from "react-router-dom";
-import { logout } from "../apis/authApi";
 import { getHome } from "../apis/homeApi";
 import { getBanners } from "../apis/bannerApi";
 
 const Home = () => {
-  const navigate = useNavigate();
   const [home, setHome] = useState(null);
   const [banners, setBanners] = useState([]);
 
