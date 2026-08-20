@@ -219,11 +219,11 @@ function DuckTalkExchangeCard({ post, mode = "feed", onRefresh }) {
             </span>
           </div>
 
-          <IoSwapHorizontal size={20} className="text-[#2F78FD] shrink-0 mx-2" />
+          <IoSwapHorizontal size={20} className="text-black shrink-0 mx-2" />
 
           <div className="flex flex-col items-center flex-1">
             <span className="text-[11px] font-medium text-[#858485] mb-1">희망 굿즈</span>
-            <span className="text-[14px] font-semibold text-[#2F78FD] text-center truncate max-w-[120px]">
+            <span className="text-[14px] font-semibold text-black text-center truncate max-w-[120px]">
               {wantedItem}
             </span>
           </div>
