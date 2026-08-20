@@ -9,7 +9,6 @@ import {
 import {
   getPostDetail,
   getPostApplications,
-  completeExchange,
   likePost,
   unlikePost,
   deletePost,
@@ -59,18 +58,6 @@ function DuckTalkExchangeCard({ post, mode = "feed", onRefresh }) {
       })
       .catch((error) => console.error("좋아요 상태 조회 실패:", error));
   }, [post.id]);
-
-  const handleCompleteExchange = async (e) => {
-    e.stopPropagation();
-    if (!window.confirm("교환을 완료 처리하시겠습니까?")) return;
-    try {
-      await completeExchange(post.id);
-      onRefresh?.();
-    } catch (error) {
-      console.error("교환 완료 처리 실패:", error);
-      alert("교환 완료 처리 중 오류가 발생했습니다.");
-    }
-  };
 
   const handleViewApplications = (e) => {
     e.stopPropagation();
@@ -266,22 +253,13 @@ function DuckTalkExchangeCard({ post, mode = "feed", onRefresh }) {
               교환 완료
             </div>
           ) : (
-            <>
-              <button
-                type="button"
-                onClick={handleViewApplications}
-                className="flex h-11 flex-1 items-center justify-center rounded-lg border border-[#A6C3F8] bg-[#FCFCFC] text-[14px] font-semibold text-[#2F78FD] cursor-pointer"
-              >
-                교환 신청 {applicationCount ?? 0}건
-              </button>
-              <button
-                type="button"
-                onClick={handleCompleteExchange}
-                className="flex h-11 flex-1 items-center justify-center rounded-lg bg-[#2F78FD] border border-[#2F78FD] text-[14px] font-semibold text-white shadow-sm hover:bg-[#1E67EC] cursor-pointer transition-all"
-              >
-                교환 완료하기
-              </button>
-            </>
+            <button
+              type="button"
+              onClick={handleViewApplications}
+              className="flex h-11 flex-1 items-center justify-center rounded-lg border border-[#A6C3F8] bg-[#FCFCFC] text-[14px] font-semibold text-[#2F78FD] cursor-pointer"
+            >
+              교환 신청 {applicationCount ?? 0}건
+            </button>
           )
         ) : isCompleted ? (
           <div className="flex h-11 flex-1 items-center justify-center rounded-lg bg-[#F4F4F4] border border-[#DEDEDE] text-[14px] font-semibold text-[#858485]">
