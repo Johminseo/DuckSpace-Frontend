@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IoChevronBack, IoHeart, IoHeartOutline, IoSearch } from "react-icons/io5";
 
-import { getPopups, likePopup, unlikePopup } from "../apis/popupApi";
+import { getPopups, likePopup, unlikePopup } from "../../apis/popupApi";
 
 // 백엔드 status(대문자 enum) <-> 화면 상태 매핑
 const STATUS_TAB_KEY = {

@@ -2,10 +2,10 @@ import { useState, useEffect } from "react";
 import { IoChevronBack } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 
-import NavBar from "../components/NavBar";
-import Avatar from "../components/Avatar";
-import { getChatRooms } from "../apis/chatApi";
-import { getUserProfile } from "../apis/userApi";
+import NavBar from "../../components/common/NavBar";
+import Avatar from "../../components/common/Avatar";
+import { getChatRooms } from "../../apis/chatApi";
+import { getUserProfile } from "../../apis/userApi";
 
 function Chat() {
   const navigate = useNavigate();

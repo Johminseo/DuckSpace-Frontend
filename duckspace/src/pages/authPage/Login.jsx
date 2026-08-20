@@ -8,11 +8,11 @@ import {
   IoLockClosedOutline,
 } from "react-icons/io5";
 
-import { login } from "../apis/authApi";
+import { login } from "../../apis/authApi";
 
 // 로고 이미지 불러오기 (경로 확인)
-import Logo from "../assets/Logo.png";
-import Character from "../assets/character.png"
+import Logo from "../../assets/Logo.png";
+import Character from "../../assets/character.png"
 
 function Login() {
   const navigate = useNavigate();

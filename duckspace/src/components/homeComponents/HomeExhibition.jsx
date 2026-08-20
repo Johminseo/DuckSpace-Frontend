@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { IoChevronForward } from "react-icons/io5";
-import ExhibitionCardPreview from "../ExhibitionCardPreview";
+import ExhibitionCardPreview from "../displayComponents/ExhibitionCardPreview";
 
 function HomeExhibition({ exhibitions = [] }) {
   const navigate = useNavigate();

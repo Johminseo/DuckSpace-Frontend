@@ -9,9 +9,9 @@ import {
   IoPersonOutline,
 } from "react-icons/io5";
 
-import { signup } from "../apis/authApi";
+import { signup } from "../../apis/authApi";
 
-import DuckSpaceIcon from "../assets/DuckSpaceIcon.svg";
+import DuckSpaceIcon from "../../assets/DuckSpaceIcon.svg";
 
 function Signup() {
   const navigate = useNavigate();

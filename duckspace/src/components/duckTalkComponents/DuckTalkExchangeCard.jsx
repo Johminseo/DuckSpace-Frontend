@@ -14,7 +14,7 @@ import {
   deletePost,
 } from "../../apis/postApi";
 import { getUserProfile } from "../../apis/userApi";
-import Avatar from "../Avatar";
+import Avatar from "../common/Avatar";
 
 function DuckTalkExchangeCard({ post, mode = "feed", onRefresh }) {
   const navigate = useNavigate();

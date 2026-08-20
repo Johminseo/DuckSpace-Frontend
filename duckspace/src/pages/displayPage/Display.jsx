@@ -2,18 +2,18 @@ import { IoChevronBack,IoEllipsisHorizontal, IoHeart, IoHeartOutline } from "rea
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 
-import DisplayEdit from "../components/DisplayEdit";
-import DisplayGoods from "../components/DisplayGoods";
-import NavBar from "../components/NavBar";
-import Avatar from "../components/Avatar";
+import DisplayEdit from "../../components/displayComponents/DisplayEdit";
+import DisplayGoods from "../../components/displayComponents/DisplayGoods";
+import NavBar from "../../components/common/NavBar";
+import Avatar from "../../components/common/Avatar";
 
-import { useDisplayStore } from "../store/displayStore";
+import { useDisplayStore } from "../../store/displayStore";
 
-import { createExhibition , getMyExhibitions, getUserExhibitions, getExhibitionDetail, likeExhibition, unlikeExhibition } from "../apis/displayApi";
+import { createExhibition , getMyExhibitions, getUserExhibitions, getExhibitionDetail, likeExhibition, unlikeExhibition } from "../../apis/displayApi";
 
-import { getMyProfile, getUserProfile } from "../apis/userApi";
+import { getMyProfile, getUserProfile } from "../../apis/userApi";
 
-import { logout } from "../apis/authApi";
+import { logout } from "../../apis/authApi";
 
 
 

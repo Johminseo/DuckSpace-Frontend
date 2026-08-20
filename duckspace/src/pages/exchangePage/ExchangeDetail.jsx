@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { IoChevronBack } from "react-icons/io5";
 
-import ExchangeUserPreferenceCard from "../components/duckTalkComponents/ExchangeUserPreferenceCard";
-import ExchangeGoodsPair from "../components/duckTalkComponents/ExchangeGoodsPair";
-import ExchangeActionComplete from "../components/duckTalkComponents/ExchangeActionComplete";
+import ExchangeUserPreferenceCard from "../../components/duckTalkComponents/ExchangeUserPreferenceCard";
+import ExchangeGoodsPair from "../../components/duckTalkComponents/ExchangeGoodsPair";
+import ExchangeActionComplete from "../../components/duckTalkComponents/ExchangeActionComplete";
 import {
   getPostDetail,
   acceptApplication,
@@ -13,10 +13,10 @@ import {
   completeApplication,
   reportPost,
   deletePost,
-} from "../apis/postApi";
+} from "../../apis/postApi";
 // ✅ 채팅 API 추가
-import { createOrGetChatRoom } from "../apis/chatApi";
-import { getUserProfile } from "../apis/userApi";
+import { createOrGetChatRoom } from "../../apis/chatApi";
+import { getUserProfile } from "../../apis/userApi";
 
 export default function ExchangeDetail() {
   const navigate = useNavigate();

@@ -1,32 +1,32 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import Home from "./pages/Home";
-import Search from "./pages/Search";
-import DuckTalk from "./pages/DuckTalk";
-import DuckTalkMyPage from "./pages/DuckTalkMyPage"; 
-import DuckTalkUserPage from "./pages/DuckTalkUserPage";
-import ExchangeApply from "./pages/ExchangeApply";
-import ExchangeList from "./pages/ExchangeList";       // 교환 목록 페이지
-import ExchangeDetail from "./pages/ExchangeDetail";   // 교환 상세 페이지
-import CasualPostDetail from "./pages/CasualPostDetail"; // 잡담 게시글 상세/댓글 페이지
-import Display from "./pages/Display";
-import PopupSchedule from "./pages/PopupSchedule";
-import PopupWishlist from "./pages/PopupWishlist";
-import PopupDetail from "./pages/PopupDetail";
-import Login from "./pages/Login";
-import Chat from "./pages/Chat"; 
+import Home from "./pages/homePage/Home";
+import Search from "./pages/searchPage/Search";
+import DuckTalk from "./pages/duckTalkPage/DuckTalk";
+import DuckTalkMyPage from "./pages/duckTalkPage/DuckTalkMyPage"; 
+import DuckTalkUserPage from "./pages/duckTalkPage/DuckTalkUserPage";
+import ExchangeApply from "./pages/exchangePage/ExchangeApply";
+import ExchangeList from "./pages/exchangePage/ExchangeList";       // 교환 목록 페이지
+import ExchangeDetail from "./pages/exchangePage/ExchangeDetail";   // 교환 상세 페이지
+import CasualPostDetail from "./pages/duckTalkPage/CasualPostDetail"; // 잡담 게시글 상세/댓글 페이지
+import Display from "./pages/displayPage/Display";
+import PopupSchedule from "./pages/popupPage/PopupSchedule";
+import PopupWishlist from "./pages/popupPage/PopupWishlist";
+import PopupDetail from "./pages/popupPage/PopupDetail";
+import Login from "./pages/authPage/Login";
+import Chat from "./pages/chatPage/Chat"; 
 
 import ChatRoom from "./pages/chatPage/ChatRoom"; 
-import PostTextPages from './pages/PostTextPages';
-import PostExchangePages from './pages/PostExchangePages';
+import PostTextPages from "./pages/duckTalkPage/PostTextPages";
+import PostExchangePages from "./pages/exchangePage/PostExchangePages";
 import DisplayList from './pages/displayPage/DisplayList';
 import DisplayUpload from './pages/displayPage/DisplayUpload';
 
-import LoginRoute from "./components/LoginRoute";
-import Signup from "./pages/Signup";
+import LoginRoute from "./components/common/LoginRoute";
+import Signup from "./pages/authPage/Signup";
 
-import DuckTalkProfileEdit from "./pages/DuckTalkProfileEdit"
-import DuckTalkFollowPage from "./pages/DuckTalkFollowPage";
+import DuckTalkProfileEdit from "./pages/duckTalkPage/DuckTalkProfileEdit"
+import DuckTalkFollowPage from "./pages/duckTalkPage/DuckTalkFollowPage";
 
 function App() {
   return (

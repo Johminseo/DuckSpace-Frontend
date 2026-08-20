@@ -1,7 +1,7 @@
 import { IoChevronForward, IoAdd, IoClose } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
-import { useGoodsStore } from "../store/goodsStore";
-import { deleteExhibitionItem } from "../apis/displayApi";
+import { useGoodsStore } from "../../store/goodsStore";
+import { deleteExhibitionItem } from "../../apis/displayApi";
 
 function DisplayGoods({ goods = [], exhibitionId, readOnly = false, onDeleted, }) {
     const navigate = useNavigate();

@@ -2,14 +2,14 @@ import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { IoChevronBack, IoSwapHorizontal } from "react-icons/io5";
 
-import NavBar from "../components/NavBar";
+import NavBar from "../../components/common/NavBar";
 
-import DuckTalkProfile from "../components/duckTalkComponents/DuckTalkProfile";
-import DuckTalkChatCard from "../components/duckTalkComponents/DuckTalkChatCard";
-import DuckTalkExchangeCard from "../components/duckTalkComponents/DuckTalkExchangeCard";
+import DuckTalkProfile from "../../components/duckTalkComponents/DuckTalkProfile";
+import DuckTalkChatCard from "../../components/duckTalkComponents/DuckTalkChatCard";
+import DuckTalkExchangeCard from "../../components/duckTalkComponents/DuckTalkExchangeCard";
 
-import { getMyProfile } from "../apis/userApi";
-import { getCasualPosts, getExchangePosts } from "../apis/postApi";
+import { getMyProfile } from "../../apis/userApi";
+import { getCasualPosts, getExchangePosts } from "../../apis/postApi";
 
 function DuckTalkMyPage() {
   const navigate = useNavigate();

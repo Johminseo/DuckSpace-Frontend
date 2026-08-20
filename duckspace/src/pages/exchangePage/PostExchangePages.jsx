@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { createExchangePost, uploadImage } from "../apis/postApi";
+import { createExchangePost, uploadImage } from "../../apis/postApi";
 
 export default function PostExchangePages() {
   const navigate = useNavigate();

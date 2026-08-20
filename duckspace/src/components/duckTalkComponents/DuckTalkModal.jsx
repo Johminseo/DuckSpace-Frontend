@@ -1,7 +1,7 @@
-import chatActiveIcon from "../assets/ducktalkIcon/chat_active.svg";
-import chatInactiveIcon from "../assets/ducktalkIcon/chat_inactive.svg";
-import exchangeActiveIcon from "../assets/ducktalkIcon/exchange_active.svg";
-import exchangeInactiveIcon from "../assets/ducktalkIcon/exchange_inactive.svg";
+import chatActiveIcon from "../../assets/ducktalkIcon/chat_active.svg";
+import chatInactiveIcon from "../../assets/ducktalkIcon/chat_inactive.svg";
+import exchangeActiveIcon from "../../assets/ducktalkIcon/exchange_active.svg";
+import exchangeInactiveIcon from "../../assets/ducktalkIcon/exchange_inactive.svg";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 

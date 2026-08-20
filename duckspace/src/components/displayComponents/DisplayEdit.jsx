@@ -3,17 +3,17 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import useImage from "use-image";
-import displayBackImg from "../assets/displaybackgrounds/display_back.png";
+import displayBackImg from "../../assets/displaybackgrounds/display_back.png";
 
 import { THEME_BACKGROUNDS, DISPLAY_THEMES } from "./displayThemes";
-import { useDisplayStore } from "../store/displayStore";
+import { useDisplayStore } from "../../store/displayStore";
 
 
-import closeIcon from "../assets/displayIcon/close.svg";
-import addIcon from "../assets/displayIcon/add.svg";
-import saveIcon from "../assets/displayIcon/save.svg";
+import closeIcon from "../../assets/displayIcon/close.svg";
+import addIcon from "../../assets/displayIcon/add.svg";
+import saveIcon from "../../assets/displayIcon/save.svg";
 
-import { updateExhibitionItemPosition, updateExhibition, deleteExhibition } from "../apis/displayApi";
+import { updateExhibitionItemPosition, updateExhibition, deleteExhibition } from "../../apis/displayApi";
 // 테스트
 function DraggableImage({ item, onChange, isEditing, isSelected, onSelect, }) {  
     const [image] = useImage(item.src);

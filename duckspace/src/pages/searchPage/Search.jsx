@@ -1,17 +1,17 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { IoChevronBack, IoSearch, IoClose } from "react-icons/io5";
-import NavBar from "../components/NavBar";
+import NavBar from "../../components/common/NavBar";
 
 import {
   searchUsers,
   getUserSearchHistory,
   recordUserSearchHistory,
   clearUserSearchHistory,
-} from "../apis/searchApi";
-import { getExhibitionFeed } from "../apis/displayApi";
-import ExhibitionCardPreview from "../components/ExhibitionCardPreview";
-import Avatar from "../components/Avatar";
+} from "../../apis/searchApi";
+import { getExhibitionFeed } from "../../apis/displayApi";
+import ExhibitionCardPreview from "../../components/displayComponents/ExhibitionCardPreview";
+import Avatar from "../../components/common/Avatar";
 
 const FEED_PAGE_SIZE = 12;
 
