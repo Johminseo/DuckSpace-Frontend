@@ -1,4 +1,4 @@
-import { IoChevronBack, IoHeart, IoHeartOutline } from "react-icons/io5";
+import { IoChevronBack,IoEllipsisHorizontal, IoHeart, IoHeartOutline } from "react-icons/io5";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 
@@ -308,6 +308,7 @@ function Display() {
             className="cursor-pointer text-2xl text-[#A2A2A2]"
           >
             <IoEllipsisHorizontal/>
+          
           </button>
         )}
       </section>
