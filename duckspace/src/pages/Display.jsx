@@ -283,7 +283,7 @@ function Display() {
           </div>
         </div>
 
-        {isOwnView && (
+        {mine && (
           <button
             type = "button" 
             onClick={() => setIsMenuOpen(true)}
@@ -398,7 +398,7 @@ function Display() {
               onClick={() => navigate("/popup/wishlist")}
               className="mb-3 w-full cursor-pointer rounded-xl bg-[#F4F4F4] py-3 text-[15px] text-black"
             >
-              관심 있는 팝업
+              팝업 위시리스트
             </button>
 
             <button
