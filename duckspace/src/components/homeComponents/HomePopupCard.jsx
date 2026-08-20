@@ -3,7 +3,7 @@ import { IoChevronForward } from "react-icons/io5";
 
 function HomePopupCard({ popups = [] }) {
   const navigate = useNavigate();
-  const popupList = popups.slice();
+  const popupList = popups.filter((popup) => popup.status !== "ENDED");
 
   if (popupList.length === 0) return null;
 
