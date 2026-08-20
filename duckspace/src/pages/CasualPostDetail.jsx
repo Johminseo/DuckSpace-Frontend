@@ -5,7 +5,8 @@ import {
   IoHeart,
   IoHeartOutline,
   IoChatbubbleOutline,
-  IoEllipsisHorizontal,
+  IoTrashOutline,
+  IoAlertCircleOutline,
   IoLockClosedOutline,
   IoSend,
 } from "react-icons/io5";
@@ -41,48 +42,22 @@ function CommentItem({ comment, isReply = false, onReply, onDelete, onReport }) 
 
   return (
     <div className={isReply ? "flex flex-col gap-3 border-l border-[#F4F4F4] pl-4" : "flex flex-col gap-3"}>
-      <div className="flex items-center justify-center gap-3">
+      <div className="flex items-center justify-between gap-2">
         <button
           type="button"
           onClick={() => comment.authorId && navigate(`/ducktalk/user?id=${comment.authorId}`)}
-          className="flex shrink-0 cursor-pointer items-center"
+          className="flex cursor-pointer items-center gap-3"
         >
           <Avatar
             src={authorProfileImage}
             alt={comment.authorNickname || "사용자"}
-            className="h-6 w-6"
+            className="h-6 w-6 shrink-0"
           />
+          <span className="max-w-[110px] sm:max-w-[160px] md:max-w-[200px] shrink-0 truncate text-[16px] font-semibold text-[#171617]">
+            {comment.authorNickname || "사용자"}
+          </span>
         </button>
-        <div className="flex flex-1 items-center justify-between">
-          <div className="flex items-center gap-3">
-            <button
-              type="button"
-              onClick={() => comment.authorId && navigate(`/ducktalk/user?id=${comment.authorId}`)}
-              className="cursor-pointer text-[16px] font-semibold text-[#171617]"
-            >
-              {comment.authorNickname || "사용자"}
-            </button>
-            <span className="text-[12px] text-[#858485]">{formattedDate}</span>
-          </div>
-        </div>
-        {comment.mine ? (
-          <button
-            type="button"
-            onClick={() => onDelete(comment.id)}
-            className="text-[#A2A2A2] cursor-pointer"
-            aria-label="댓글 메뉴"
-          >
-            <IoEllipsisHorizontal size={18} />
-          </button>
-        ) : (
-          <button
-            type="button"
-            onClick={() => onReport(comment.id)}
-            className="text-[12px] text-[#858485] cursor-pointer hover:underline shrink-0"
-          >
-            신고하기
-          </button>
-        )}
+        <span className="shrink-0 text-[12px] text-[#858485]">{formattedDate}</span>
       </div>
 
       {comment.secret ? (
@@ -96,15 +71,37 @@ function CommentItem({ comment, isReply = false, onReply, onDelete, onReport }) 
         <p className="text-[14px] leading-[21px] text-[#545454] whitespace-pre-wrap">{comment.content}</p>
       )}
 
-      {!isReply && (
-        <button
-          type="button"
-          onClick={() => onReply(comment)}
-          className="self-start text-[12px] text-[#545454] cursor-pointer hover:underline"
-        >
-          답글 달기
-        </button>
-      )}
+      <div className="flex items-center gap-2">
+        {!isReply && (
+          <button
+            type="button"
+            onClick={() => onReply(comment)}
+            className="text-[12px] text-[#545454] cursor-pointer hover:underline"
+          >
+            답글 달기
+          </button>
+        )}
+
+        {comment.mine ? (
+          <button
+            type="button"
+            onClick={() => onDelete(comment.id)}
+            className="ml-auto text-[#A2A2A2] cursor-pointer"
+            aria-label="댓글 삭제"
+          >
+            <IoTrashOutline size={18} />
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={() => onReport(comment.id)}
+            className="ml-auto text-[#A2A2A2] cursor-pointer"
+            aria-label="댓글 신고"
+          >
+            <IoAlertCircleOutline size={16} />
+          </button>
+        )}
+      </div>
     </div>
   );
 }
@@ -280,7 +277,7 @@ export default function CasualPostDetail() {
       <main className="flex flex-col gap-5 px-5 pt-3">
         {/* 게시글 본문 */}
         <div className="flex flex-col gap-3 rounded-lg border border-white/60 bg-white/75 p-5 shadow-[0_15px_40px_rgba(205,205,205,0.08)] backdrop-blur-[10px]">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between gap-2">
             <button
               type="button"
               onClick={() =>
@@ -294,32 +291,14 @@ export default function CasualPostDetail() {
                 className="h-6 w-6 shrink-0"
               />
 
-              <span className="text-[16px] font-semibold text-[#171617]">
+              <span className="max-w-[110px] sm:max-w-[160px] md:max-w-[200px] shrink-0 truncate text-[16px] font-semibold text-[#171617]">
                 {postDetail.authorNickname || "사용자"}
               </span>
             </button>
 
-            <span className="text-[12px] text-[#858485]">
+            <span className="shrink-0 text-[12px] text-[#858485]">
               {formattedDate}
             </span>
-            {postDetail.mine ? (
-              <button
-                type="button"
-                onClick={handleDeletePost}
-                className="text-[#A2A2A2] cursor-pointer"
-                aria-label="게시글 메뉴"
-              >
-                <IoEllipsisHorizontal size={20} />
-              </button>
-            ) : (
-              <button
-                type="button"
-                onClick={handleReportPost}
-                className="text-[12px] text-[#858485] cursor-pointer hover:underline"
-              >
-                신고하기
-              </button>
-            )}
           </div>
 
           <p className="text-[14px] leading-[21px] text-[#545454] whitespace-pre-wrap">{postDetail.content}</p>
@@ -345,24 +324,46 @@ export default function CasualPostDetail() {
             </div>
           )}
 
-          <div className="flex items-center gap-3 pt-1 text-[#545454]">
-            <button
-              type="button"
-              onClick={handleToggleLike}
-              disabled={isLiking}
-              className="flex items-center gap-1.5 cursor-pointer disabled:cursor-not-allowed"
-            >
-              {postDetail.liked ? (
-                <IoHeart size={20} className="text-[#FF5A5A]" />
-              ) : (
-                <IoHeartOutline size={20} className="text-[#545454]" />
-              )}
-              <span className="text-[14px] font-semibold leading-[21px]">{postDetail.likeCount}</span>
-            </button>
-            <div className="flex items-center gap-1.5">
-              <IoChatbubbleOutline size={18} className="text-[#545454]" />
-              <span className="text-[14px] font-semibold leading-[21px]">{postDetail.commentCount}</span>
+          <div className="flex items-center justify-between gap-3 pt-1 text-[#545454]">
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={handleToggleLike}
+                disabled={isLiking}
+                className="flex items-center gap-1.5 cursor-pointer disabled:cursor-not-allowed"
+              >
+                {postDetail.liked ? (
+                  <IoHeart size={20} className="text-[#FF5A5A]" />
+                ) : (
+                  <IoHeartOutline size={20} className="text-[#545454]" />
+                )}
+                <span className="text-[14px] font-semibold leading-[21px]">{postDetail.likeCount}</span>
+              </button>
+              <div className="flex items-center gap-1.5">
+                <IoChatbubbleOutline size={18} className="text-[#545454]" />
+                <span className="text-[14px] font-semibold leading-[21px]">{postDetail.commentCount}</span>
+              </div>
             </div>
+
+            {postDetail.mine ? (
+              <button
+                type="button"
+                onClick={handleDeletePost}
+                className="shrink-0 text-[#A2A2A2] cursor-pointer"
+                aria-label="게시글 삭제"
+              >
+                <IoTrashOutline size={20} />
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={handleReportPost}
+                className="shrink-0 text-[#A2A2A2] cursor-pointer"
+                aria-label="게시글 신고"
+              >
+                <IoAlertCircleOutline size={18} />
+              </button>
+            )}
           </div>
         </div>
 

@@ -11,6 +11,8 @@ import {
   rejectApplication,
   cancelApplication,
   completeApplication,
+  reportPost,
+  deletePost,
 } from "../apis/postApi";
 // ✅ 채팅 API 추가
 import { createOrGetChatRoom } from "../apis/chatApi";
@@ -118,6 +120,31 @@ export default function ExchangeDetail() {
     }
   };
 
+  // 게시글 신고
+  const handleReport = async () => {
+    const reason = window.prompt("신고 사유를 입력해주세요. (선택 사항)", "");
+    if (reason === null) return;
+    try {
+      await reportPost(id, { reason });
+      alert("신고가 접수되었습니다.");
+    } catch (error) {
+      console.error("게시글 신고 실패:", error);
+      alert("신고 접수 중 오류가 발생했습니다.");
+    }
+  };
+
+  // 게시글 삭제 (내 글)
+  const handleDeletePost = async () => {
+    if (!window.confirm("게시글을 삭제하시겠습니까?")) return;
+    try {
+      await deletePost(id);
+      navigate("/ducktalk?tab=exchange");
+    } catch (error) {
+      console.error("게시글 삭제 실패:", error);
+      alert("게시글 삭제 중 오류가 발생했습니다.");
+    }
+  };
+
   // 교환 완료 처리
   const handleComplete = async () => {
     if (!window.confirm("교환을 완료 처리하시겠습니까?")) return;
@@ -217,7 +244,12 @@ export default function ExchangeDetail() {
 
       <main className="flex flex-col gap-4 px-5 pt-3">
         {/* 1. 상대방 정보 및 선호 조건 카드 */}
-        <ExchangeUserPreferenceCard user={userObj} preferences={preferencesObj} />
+        <ExchangeUserPreferenceCard
+          user={userObj}
+          preferences={preferencesObj}
+          onReport={!postDetail?.mine ? handleReport : undefined}
+          onDelete={postDetail?.mine ? handleDeletePost : undefined}
+        />
 
         {/* 2. 교환 굿즈 대조 카드 */}
         <ExchangeGoodsPair
