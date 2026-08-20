@@ -4,7 +4,6 @@ import NavBar from "../components/NavBar";
 import HomeSlide from "../components/homeComponents/HomeSlide";
 import HomePopupCard from "../components/homeComponents/HomePopupCard";
 import HomeExhibition from "../components/homeComponents/HomeExhibition";
-import DuckSpaceIcon from "../assets/DuckSpaceIcon.svg";
 import Logo from "../assets/Logo.png"
 
 import { useNavigate } from "react-router-dom";
@@ -41,23 +40,7 @@ const Home = () => {
       );
   }, []);
 
-  const handleLogout = async () => {
-    const refreshToken =
-      localStorage.getItem("refreshToken");
-
-    try {
-      if (refreshToken) {
-        await logout(refreshToken);
-      }
-    } catch (error) {
-      console.error("로그아웃 API 오류:", error);
-    } finally {
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("refreshToken");
-
-      navigate("/login");
-    }
-  };
+  
   return (
     <div className="min-h-screen bg-white pb-24">
 
@@ -66,16 +49,9 @@ const Home = () => {
         <img
           src={Logo}
           alt="DuckSpace"
-          className="h-9 h-[19px] w-[64px]"
+          className=" h-[19px] w-[64px]"
         />
 
-        <button
-          type="button"
-          onClick={handleLogout}
-          className="cursor-pointer text-[13px] text-[#858485]"
-        >
-          로그아웃
-        </button>
       </div>
 
       {/* 상단 팝업 슬라이드 */}
