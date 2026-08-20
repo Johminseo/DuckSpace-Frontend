@@ -132,7 +132,18 @@ function DisplayUpload() {
                 className="h-full w-full object-contain"
             />
             ) : (
-                <IoAdd size={42} className="text-[#A2A2A2]" />
+                <div className="flex flex-col items-center justify-center">
+                  <IoAdd size={42} className="text-[#A2A2A2]" />
+
+                  <p className="mt-3 text-[13px] text-[#A2A2A2]">
+                    JPG, PNG 파일만 업로드할 수 있어요.
+                  </p>
+
+                  <p className="mt-1 text-[13px] text-[#A2A2A2]">
+                    배경이 깔끔하게 보이도록 촬영한 이미지를 권장해요.
+                  </p>
+                </div>
+              
             )}
 
             <input

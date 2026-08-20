@@ -1,6 +1,8 @@
 import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function HomeSlide({ banners = [] }) {
+  const navigate = useNavigate();
   const sliderRef = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -61,6 +63,10 @@ function HomeSlide({ banners = [] }) {
           return (
             <div
               key={banner.id}
+              onClick={() =>
+                banner.popupId &&
+                navigate(`/popup/detail?id=${banner.popupId}`)
+              }
               className={`
                 relative
                 shrink-0
@@ -70,6 +76,7 @@ function HomeSlide({ banners = [] }) {
                 rounded-[8px]
                 transition-all
                 duration-300
+                ${banner.popupId ? "cursor-pointer" : ""}
                 ${
                   isActive
                     ? "h-[320px] w-[280px]"
