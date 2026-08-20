@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import DisplayEdit from "../components/DisplayEdit";
 import DisplayGoods from "../components/DisplayGoods";
 import NavBar from "../components/NavBar";
+//test
 
 import { useDisplayStore } from "../store/displayStore";
 
@@ -290,6 +291,7 @@ function Display() {
             className="cursor-pointer text-2xl text-[#A2A2A2]"
           >
             <IoEllipsisHorizontal/>
+          
           </button>
         )}
       </section>
