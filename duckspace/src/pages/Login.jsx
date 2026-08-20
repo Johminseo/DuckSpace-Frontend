@@ -12,6 +12,7 @@ import { login } from "../apis/authApi";
 
 // 로고 이미지 불러오기 (경로 확인)
 import Logo from "../assets/Logo.png";
+import Character from "../assets/character.png"
 
 function Login() {
   const navigate = useNavigate();
@@ -136,6 +137,12 @@ function Login() {
           </button>
         </form>
       </div>
+
+          <img
+            src={Character}
+            alt="character"
+            className="h-[360px] w-auto object-contain"
+          />
 
       {/* 4. 하단 회원가입 / 계정 찾기 링크 */}
       <div className="flex items-center justify-center gap-3 text-xs text-[#858485] pt-6">
