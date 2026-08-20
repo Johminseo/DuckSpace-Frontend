@@ -57,7 +57,7 @@ function PopupDetail() {
   return (
     <div className="min-h-screen bg-[#FEFEFE] pb-12">
       {/* 배너 이미지 + 헤더 버튼 */}
-      <div className="relative h-[280px] w-full overflow-hidden bg-[#F7F7F7]">
+      <div className="relative h-[280px] w-[430px] overflow-hidden bg-[#F7F7F7]">
         <img
           src={popupDetail?.imageUrl || displayBack}
           alt="팝업 배너"
@@ -127,7 +127,7 @@ function PopupDetail() {
           <section className="mt-6">
             <h2 className="text-[16px] font-semibold text-[#171617]">혜택 및 굿즈</h2>
             {popupDetail.benefitImageUrl && (
-              <div className="mt-2 h-[200px] w-full overflow-hidden rounded-lg bg-[#CDDCF7]">
+              <div className="mt-2 h-[380px] w-[380px] overflow-hidden rounded-lg bg-[#CDDCF7]">
                 <img
                   src={popupDetail.benefitImageUrl}
                   alt="혜택 및 굿즈"
