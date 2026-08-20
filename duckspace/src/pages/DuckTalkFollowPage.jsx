@@ -6,7 +6,6 @@ import NavBar from "../components/NavBar";
 
 import { getFollowing, getFollowers, } from "../apis/followApi";
 
-import { getUserProfile } from "../apis/userApi";
 
 function DuckTalkFollowPage() {
   const navigate = useNavigate();
@@ -42,26 +41,7 @@ function DuckTalkFollowPage() {
           data?.items ??
           (Array.isArray(data) ? data : []);
 
-        const usersWithProfile = await Promise.all(
-            list.map(async (user) => {
-                try {
-                    const profileResult = await getUserProfile(user.userId);
-                    const profileData = profileResult?.data ?? profileResult;
-                    return {
-                        ...user,
-                        profileImageUrl: profileData?.profileImageUrl || "",
-                        nickname: profileData?.nickname || user.nickname,
-                    };
-                } catch (error) {
-                    console.error(
-                        `유저 ${user.userId} 프로필 조회 실패:`,
-                        error.response?.data || error
-                    );
-                    return user;
-                }
-            })
-        );
-        setUsers(usersWithProfile);
+        setUsers(list);
       } catch (error) {
         console.error(
           "팔로우 목록 조회 실패:",
