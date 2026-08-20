@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { IoChevronBack, IoHeart, IoHeartOutline } from "react-icons/io5";
 
-import displayBack from "../assets/displaybackgrounds/display_back.png";
-import { getPopupDetail, likePopup, unlikePopup } from "../apis/popupApi";
+import displayBack from "../../assets/displaybackgrounds/display_back.png";
+import { getPopupDetail, likePopup, unlikePopup } from "../../apis/popupApi";
 
 // "2026-08-10" -> "2026.08.10" (PopupSchedule.jsx와 동일한 포맷)
 const formatDate = (isoDate) => (isoDate ? isoDate.replaceAll("-", ".") : "");

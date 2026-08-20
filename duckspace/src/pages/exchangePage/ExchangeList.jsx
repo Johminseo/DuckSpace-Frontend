@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { IoChevronBack } from "react-icons/io5";
 
-import ExchangeListCard from "../components/duckTalkComponents/ExchangeListCard";
-import { getApplications } from "../apis/postApi";
-import { getMyProfile } from "../apis/userApi";
+import ExchangeListCard from "../../components/duckTalkComponents/ExchangeListCard";
+import { getApplications } from "../../apis/postApi";
+import { getMyProfile } from "../../apis/userApi";
 
 function ExchangeList() {
   const navigate = useNavigate();

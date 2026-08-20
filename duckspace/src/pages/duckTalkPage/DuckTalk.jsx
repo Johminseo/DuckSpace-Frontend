@@ -2,19 +2,19 @@ import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { IoChevronBack, IoSearch, IoAdd } from "react-icons/io5";
 
-import NavBar from "../components/NavBar";
-import DuckTalkModal from "../components/DuckTalkModal";
+import NavBar from "../../components/common/NavBar";
+import DuckTalkModal from "../../components/duckTalkComponents/DuckTalkModal";
 
 // 덕톡 마이페이지 아이콘
-import userIcon from "../assets/ducktalkIcon/userIcon.svg";
+import userIcon from "../../assets/ducktalkIcon/userIcon.svg";
 
 // 카드 컴포넌트
-import DuckTalkChatCard from "../components/duckTalkComponents/DuckTalkChatCard";
-import DuckTalkExchangeCard from "../components/duckTalkComponents/DuckTalkExchangeCard";
+import DuckTalkChatCard from "../../components/duckTalkComponents/DuckTalkChatCard";
+import DuckTalkExchangeCard from "../../components/duckTalkComponents/DuckTalkExchangeCard";
 
 // 실제 백엔드 API
-import { getCasualPosts, getExchangePosts } from "../apis/postApi";
-import { getMyProfile } from "../apis/userApi";
+import { getCasualPosts, getExchangePosts } from "../../apis/postApi";
+import { getMyProfile } from "../../apis/userApi";
 
 function DuckTalk() {
   const navigate = useNavigate();

@@ -1,19 +1,19 @@
 import { NavLink } from "react-router-dom";
 
-import homeGrayIcon from "../assets/navbarIcon/home_gray.png";
-import homeBlueIcon from "../assets/navbarIcon/home_blue.png";
+import homeGrayIcon from "../../assets/navbarIcon/home_gray.png";
+import homeBlueIcon from "../../assets/navbarIcon/home_blue.png";
 
-import searchGrayIcon from "../assets/navbarIcon/search_gray.png";
-import searchBlueIcon from "../assets/navbarIcon/search_blue.png";
+import searchGrayIcon from "../../assets/navbarIcon/search_gray.png";
+import searchBlueIcon from "../../assets/navbarIcon/search_blue.png";
 
-import ducktalkGrayIcon from "../assets/navbarIcon/ducktalk_gray.png";
-import ducktalkBlueIcon from "../assets/navbarIcon/ducktalk_blue.png";
+import ducktalkGrayIcon from "../../assets/navbarIcon/ducktalk_gray.png";
+import ducktalkBlueIcon from "../../assets/navbarIcon/ducktalk_blue.png";
 
-import duckGrayIcon from "../assets/navbarIcon/duck_gray.png";
-import duckBlueIcon from "../assets/navbarIcon/duck_blue.png";
+import duckGrayIcon from "../../assets/navbarIcon/duck_gray.png";
+import duckBlueIcon from "../../assets/navbarIcon/duck_blue.png";
 
-import chatGrayIcon from "../assets/navbarIcon/chat_gray.png";
-import chatBlueIcon from "../assets/navbarIcon/chat_blue.png";
+import chatGrayIcon from "../../assets/navbarIcon/chat_gray.png";
+import chatBlueIcon from "../../assets/navbarIcon/chat_blue.png";
 
 const navItems = [
   {

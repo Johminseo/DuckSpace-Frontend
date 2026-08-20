@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { createCasualPost, uploadImage } from "../apis/postApi";
+import { createCasualPost, uploadImage } from "../../apis/postApi";
 
 const MAX_IMAGES = 4;
 const MAX_LENGTH = 500;

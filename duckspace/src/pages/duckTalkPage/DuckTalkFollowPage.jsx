@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { IoChevronBack, IoCheckmarkCircle } from "react-icons/io5";
 
-import NavBar from "../components/NavBar";
-import Avatar from "../components/Avatar";
+import NavBar from "../../components/common/NavBar";
+import Avatar from "../../components/common/Avatar";
 
-import { getFollowing, getFollowers, } from "../apis/followApi";
+import { getFollowing, getFollowers, } from "../../apis/followApi";
 
 
 function DuckTalkFollowPage() {

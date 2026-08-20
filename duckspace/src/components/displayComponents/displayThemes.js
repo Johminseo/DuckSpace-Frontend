@@ -1,10 +1,10 @@
-import displayBack from "../assets/displaybackgrounds/display_back.png";
-import displayBack1 from "../assets/displaybackgrounds/display_back1.png";
-import displayBack2 from "../assets/displaybackgrounds/display_back2.png";
-import displayBack3 from "../assets/displaybackgrounds/display_back3.png";
-import displayBack4 from "../assets/displaybackgrounds/display_back4.png";
-import displayBack5 from "../assets/displaybackgrounds/display_back5.png";
-import displayBack6 from "../assets/displaybackgrounds/display_back6.png";
+import displayBack from "../../assets/displaybackgrounds/display_back.png";
+import displayBack1 from "../../assets/displaybackgrounds/display_back1.png";
+import displayBack2 from "../../assets/displaybackgrounds/display_back2.png";
+import displayBack3 from "../../assets/displaybackgrounds/display_back3.png";
+import displayBack4 from "../../assets/displaybackgrounds/display_back4.png";
+import displayBack5 from "../../assets/displaybackgrounds/display_back5.png";
+import displayBack6 from "../../assets/displaybackgrounds/display_back6.png";
 
 export const DISPLAY_THEMES = [
   {

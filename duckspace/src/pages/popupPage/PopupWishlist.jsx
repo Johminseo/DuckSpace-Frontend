@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IoChevronBack, IoHeart } from "react-icons/io5";
 
-import { getLikedPopups, unlikePopup } from "../apis/popupApi";
+import { getLikedPopups, unlikePopup } from "../../apis/popupApi";
 
 const STATUS_TEXT = {
   UPCOMING: "예정",

@@ -4,7 +4,7 @@ import { IoSwapHorizontal, IoChevronForward } from "react-icons/io5";
 import { acceptApplication, rejectApplication, cancelApplication, completeApplication, getPostDetail } from "../../apis/postApi";
 import { getUserProfile } from "../../apis/userApi";
 import { createOrGetChatRoom } from "../../apis/chatApi";
-import Avatar from "../Avatar";
+import Avatar from "../common/Avatar";
 
 function ExchangeListCard({ item, activeTab, myUserId, onRefresh }) {
   const navigate = useNavigate();

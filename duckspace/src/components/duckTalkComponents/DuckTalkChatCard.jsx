@@ -8,7 +8,7 @@ import {
 } from "react-icons/io5";
 import { deletePost, getPostDetail, likePost, unlikePost } from "../../apis/postApi";
 import { getUserProfile } from "../../apis/userApi";
-import Avatar from "../Avatar";
+import Avatar from "../common/Avatar";
 
 function DuckTalkChatCard({ post, mode = "feed", onRefresh }) {
   const navigate = useNavigate();

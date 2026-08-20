@@ -21,9 +21,9 @@ import {
   createComment,
   deleteComment,
   reportComment,
-} from "../apis/postApi";
-import { getUserProfile } from "../apis/userApi";
-import Avatar from "../components/Avatar";
+} from "../../apis/postApi";
+import { getUserProfile } from "../../apis/userApi";
+import Avatar from "../../components/common/Avatar";
 
 function CommentItem({ comment, isReply = false, onReply, onDelete, onReport }) {
   const navigate = useNavigate();

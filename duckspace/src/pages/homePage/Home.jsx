@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import NavBar from "../components/NavBar";
+import NavBar from "../../components/common/NavBar";
 
-import HomeSlide from "../components/homeComponents/HomeSlide";
-import HomePopupCard from "../components/homeComponents/HomePopupCard";
-import HomeExhibition from "../components/homeComponents/HomeExhibition";
-import Logo from "../assets/Logo.png"
+import HomeSlide from "../../components/homeComponents/HomeSlide";
+import HomePopupCard from "../../components/homeComponents/HomePopupCard";
+import HomeExhibition from "../../components/homeComponents/HomeExhibition";
+import Logo from "../../assets/Logo.png"
 
-import { getHome } from "../apis/homeApi";
-import { getBanners } from "../apis/bannerApi";
+import { getHome } from "../../apis/homeApi";
+import { getBanners } from "../../apis/bannerApi";
 
 const Home = () => {
   const [home, setHome] = useState(null);

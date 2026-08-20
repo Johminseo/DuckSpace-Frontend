@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { IoCheckmarkCircle } from "react-icons/io5";
 import { followUser, unfollowUser, getFollowing } from "../../apis/followApi";
 import { getUserProfile, getMyProfile, } from "../../apis/userApi";
-import Avatar from "../Avatar";
+import Avatar from "../common/Avatar";
 
 function DuckTalkProfile({ profile, isMe = true }) {
 

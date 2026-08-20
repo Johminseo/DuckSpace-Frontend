@@ -1,6 +1,6 @@
 import { IoCheckmarkCircle, IoAlertCircleOutline, IoTrashOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
-import Avatar from "../Avatar";
+import Avatar from "../common/Avatar";
 
 function ExchangeUserPreferenceCard({ user, preferences, onReport, onDelete }) {
   const navigate = useNavigate();

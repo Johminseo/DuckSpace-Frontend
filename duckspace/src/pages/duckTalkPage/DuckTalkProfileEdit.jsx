@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IoChevronBack, IoAdd } from "react-icons/io5";
 
-import { getMyProfile, updateMyProfile } from "../apis/userApi";
-import { uploadImage } from "../apis/postApi";
+import { getMyProfile, updateMyProfile } from "../../apis/userApi";
+import { uploadImage } from "../../apis/postApi";
 
 function DuckTalkProfileEdit() {
   const navigate = useNavigate();
