@@ -1,4 +1,4 @@
-import { IoChevronBack, IoEllipsisHorizontal, IoHeart, IoHeartOutline } from "react-icons/io5";
+import { IoChevronBack, IoHeart, IoHeartOutline } from "react-icons/io5";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 
@@ -269,7 +269,7 @@ function Display() {
         >
           <Avatar src={profile?.profileImageUrl} alt={profile?.nickname} className="h-14 w-14" />
 
-          <div>
+          <div className="text-left">
             <p className="text-[20px] font-semibold text-black">
               {profile?.nickname || "사용자"}
             </p>
