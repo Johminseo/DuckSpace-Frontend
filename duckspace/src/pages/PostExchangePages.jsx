@@ -361,7 +361,7 @@ export default function PostExchangePages() {
                   <div className="space-y-[20px]">
                     <section className="space-y-[8px]">
                       <div className="flex items-center justify-between">
-                        <h2 className="text-[18px] font-semibold text-[#171617]">내가 원하는 굿즈 (선택)</h2>
+                        <h2 className="text-[18px] font-semibold text-[#171617]">내가 원하는 굿즈 (필수)</h2>
                         {isUploadingImage && <span className="text-xs text-[#2F78FD]">사진 업로드 중...</span>}
                       </div>
                       <div className="flex items-center gap-[12px] overflow-x-auto pb-1">
